@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<beans>
+		<bean id="testBean" class="com.yang.test_05_properties.TestBean">
+			<property name="properties1" value="this is test string properties"></property>
+			<property name="properties2" value="123"></property>
+			<property name="properties3">
+				<list>
+					<value>list1</value>
+					<value>list2</value>
+					<value>list3</value>
+				</list>
+			</property>
+			<property name="properties4">
+				<map>
+					<entry key="key1" value="val1"></entry>
+					<entry key="key2" value="val2"></entry>
+					<entry key="key3" value="val3"></entry>
+				</map>
+			</property>
+		</bean>
+	</beans>
+
+</beans>

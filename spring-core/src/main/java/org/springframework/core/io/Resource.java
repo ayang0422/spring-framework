@@ -151,6 +151,7 @@ public interface Resource extends InputStreamSource {
 
 	/**
 	 * Create a resource relative to this resource.
+	 * 基于当前资源创建一个相对资源的
 	 * @param relativePath the relative path (relative to this resource)
 	 * @return the resource handle for the relative resource
 	 * @throws IOException if the relative resource cannot be determined

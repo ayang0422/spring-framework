@@ -90,11 +90,14 @@ public class XmlValidationModeDetector {
 	 */
 	public int detectValidationMode(InputStream inputStream) throws IOException {
 		// Peek into the file to look for DOCTYPE.
+		// 如果包含"DOCTYPE"就是DTD模式，否则就是XSD
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
 			boolean isDtdValidated = false;
 			String content;
 			while ((content = reader.readLine()) != null) {
+				// 去除注释
 				content = consumeCommentTokens(content);
+				// 去除空行
 				if (this.inComment || !StringUtils.hasText(content)) {
 					continue;
 				}
@@ -102,6 +105,7 @@ public class XmlValidationModeDetector {
 					isDtdValidated = true;
 					break;
 				}
+				// 读到<开始符号，验证模式一定在开始符号之前
 				if (hasOpeningTag(content)) {
 					// End of meaningful data...
 					break;
