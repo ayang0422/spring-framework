@@ -993,9 +993,15 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
 		if (existingDefinition != null) {
+			// 校验BeanDefinition是否存在，如过配置不允许覆盖，抛出异常
+			// 默认是允许覆盖
 			if (!isAllowBeanDefinitionOverriding()) {
 				throw new BeanDefinitionOverrideException(beanName, beanDefinition, existingDefinition);
 			}
+			// 关于role属性 文档解释：
+			// 获取此BeanDefinition的角色提示。角色提示提供了框架和工具，以指示特定BeanDefinition的角色和重要性
+			// 详细可看role相关的文档 org.springframework.beans.factory.config.BeanDefinition.ROLE_APPLICATION等
+			// 此处是更高级的角色替代低级的角色
 			else if (existingDefinition.getRole() < beanDefinition.getRole()) {
 				// e.g. was ROLE_APPLICATION, now overriding with ROLE_SUPPORT or ROLE_INFRASTRUCTURE
 				if (logger.isInfoEnabled()) {
@@ -1021,6 +1027,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
 		else {
+			// 4.2.2开始
+			// 检查这个工厂的bean创建阶段是否已经开始，即是否有bean同时被标记为已创建。
 			if (hasBeanCreationStarted()) {
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
 				synchronized (this.beanDefinitionMap) {
@@ -1042,6 +1050,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		if (existingDefinition != null || containsSingleton(beanName)) {
+			// 重置所有beanName的缓存
 			resetBeanDefinition(beanName);
 		}
 		else if (isConfigurationFrozen()) {
