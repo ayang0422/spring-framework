@@ -156,6 +156,7 @@ public abstract class FactoryBeanRegistrySupport extends DefaultSingletonBeanReg
 	private Object doGetObjectFromFactoryBean(FactoryBean<?> factory, String beanName) throws BeanCreationException {
 		Object object;
 		try {
+			// 是否需要权限验证
 			if (System.getSecurityManager() != null) {
 				AccessControlContext acc = getAccessControlContext();
 				try {

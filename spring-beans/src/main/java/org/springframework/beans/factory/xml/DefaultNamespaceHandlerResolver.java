@@ -115,14 +115,18 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 	@Override
 	@Nullable
 	public NamespaceHandler resolve(String namespaceUri) {
+		// 获取映射map
 		Map<String, Object> handlerMappings = getHandlerMappings();
+		//
 		Object handlerOrClassName = handlerMappings.get(namespaceUri);
 		if (handlerOrClassName == null) {
 			return null;
 		}
+		// 如果缓存存在，就直接返回
 		else if (handlerOrClassName instanceof NamespaceHandler) {
 			return (NamespaceHandler) handlerOrClassName;
 		}
+		// 缓存不存在就实例化这个NamespaceHandler并放入缓存
 		else {
 			String className = (String) handlerOrClassName;
 			try {
@@ -132,7 +136,9 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 							"] does not implement the [" + NamespaceHandler.class.getName() + "] interface");
 				}
 				NamespaceHandler namespaceHandler = (NamespaceHandler) BeanUtils.instantiateClass(handlerClass);
+				// 初始化
 				namespaceHandler.init();
+				// 放入缓存
 				handlerMappings.put(namespaceUri, namespaceHandler);
 				return namespaceHandler;
 			}
@@ -148,6 +154,7 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 	}
 
 	/**
+	 * 懒加载命名空间映射
 	 * Load the specified NamespaceHandler mappings lazily.
 	 */
 	private Map<String, Object> getHandlerMappings() {
@@ -160,6 +167,7 @@ public class DefaultNamespaceHandlerResolver implements NamespaceHandlerResolver
 						logger.trace("Loading NamespaceHandler mappings from [" + this.handlerMappingsLocation + "]");
 					}
 					try {
+						// 加载默认路径下的配置
 						Properties mappings =
 								PropertiesLoaderUtils.loadAllProperties(this.handlerMappingsLocation, this.classLoader);
 						if (logger.isTraceEnabled()) {

@@ -63,6 +63,7 @@ public abstract class AbstractBeanDefinitionParser implements BeanDefinitionPars
 		AbstractBeanDefinition definition = parseInternal(element, parserContext);
 		if (definition != null && !parserContext.isNested()) {
 			try {
+				// 解析提供的BeanDefinition的ID 没有指定就使用beanName属性
 				String id = resolveId(element, definition, parserContext);
 				if (!StringUtils.hasText(id)) {
 					parserContext.getReaderContext().error(
@@ -76,9 +77,12 @@ public abstract class AbstractBeanDefinitionParser implements BeanDefinitionPars
 						aliases = StringUtils.trimArrayElements(StringUtils.commaDelimitedListToStringArray(name));
 					}
 				}
+				// 将AbstractBeanDefinition转化成BeanDefinitionHolder
 				BeanDefinitionHolder holder = new BeanDefinitionHolder(definition, id, aliases);
+				// 注册
 				registerBeanDefinition(holder, parserContext.getRegistry());
 				if (shouldFireEvents()) {
+					// 通知监听器处理
 					BeanComponentDefinition componentDefinition = new BeanComponentDefinition(holder);
 					postProcessComponentDefinition(componentDefinition);
 					parserContext.registerComponent(componentDefinition);

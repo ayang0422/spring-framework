@@ -181,12 +181,13 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 				Node node = nl.item(i);
 				if (node instanceof Element) {
 					Element ele = (Element) node;
-					// 解析默认beans
+					// 解析默认beans 根据命名空间来判断是否是默认标签
 					if (delegate.isDefaultNamespace(ele)) {
 						// 对4种默认bean的解析
 						parseDefaultElement(ele, delegate);
 					}
 					else {
+						// 对自定义标签的解析
 						delegate.parseCustomElement(ele);
 					}
 				}
@@ -198,6 +199,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	}
 
 	private void parseDefaultElement(Element ele, BeanDefinitionParserDelegate delegate) {
+		// 解析import标签
 		if (delegate.nodeNameEquals(ele, IMPORT_ELEMENT)) {
 			importBeanDefinitionResource(ele);
 		}
@@ -220,6 +222,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 	 * from the given resource into the bean factory.
 	 */
 	protected void importBeanDefinitionResource(Element ele) {
+		// 获取resource属性
 		String location = ele.getAttribute(RESOURCE_ATTRIBUTE);
 		if (!StringUtils.hasText(location)) {
 			getReaderContext().error("Resource location must not be empty", ele);
@@ -255,15 +258,18 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			}
 		}
 		else {
+			// 如果是相对地址，则根据相对地址计算出绝对地址
 			// No URL -> considering resource location as relative to the current file.
 			try {
 				int importCount;
+				// todo 需要弄清楚是哪一个Resource子类的createRelative
 				Resource relativeResource = getReaderContext().getResource().createRelative(location);
 				if (relativeResource.exists()) {
 					importCount = getReaderContext().getReader().loadBeanDefinitions(relativeResource);
 					actualResources.add(relativeResource);
 				}
 				else {
+					// 解析不成功，使用默认的解析器解析
 					String baseLocation = getReaderContext().getResource().getURL().toString();
 					importCount = getReaderContext().getReader().loadBeanDefinitions(
 							StringUtils.applyRelativePath(baseLocation, location), actualResources);
@@ -301,12 +307,14 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 		}
 		if (valid) {
 			try {
+				// 注册别名
 				getReaderContext().getRegistry().registerAlias(name, alias);
 			}
 			catch (Exception ex) {
 				getReaderContext().error("Failed to register alias '" + alias +
 						"' for bean with name '" + name + "'", ele, ex);
 			}
+			// 通知别名注册器事件
 			getReaderContext().fireAliasRegistered(name, alias, extractSource(ele));
 		}
 	}

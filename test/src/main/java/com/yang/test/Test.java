@@ -1,5 +1,8 @@
 package com.yang.test;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 /**
  * @author yangpeng
  * @version 1.0.0
@@ -8,6 +11,8 @@ package com.yang.test;
 public class Test {
 
 	public static void main(String[] args) {
-		System.out.println("abc");
+		ApplicationContext context = new ClassPathXmlApplicationContext("test.xml");
+		A bean = context.getBean(A.class);
+		System.out.println("a的B属性是:" + bean.getB());
 	}
 }

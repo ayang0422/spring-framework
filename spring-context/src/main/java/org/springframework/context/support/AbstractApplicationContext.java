@@ -567,7 +567,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				registerBeanPostProcessors(beanFactory);
 				beanPostProcess.end();
 
-				// Initialize message source for this context.
+				// Initialize message source for this context. 国际化
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
@@ -630,7 +630,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			}
 		}
 
-		// Initialize any placeholder property sources in the context environment.
+		// INITIALIZE ANY PLACEHOLDER PROPERTY SOURCES IN THE CONTEXT ENVIRONMENT.
+		// 初始化上下文中占用符
 		initPropertySources();
 
 		// Validate that all properties marked as required are resolvable:
@@ -860,7 +861,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Add beans that implement ApplicationListener as listeners.
 	 * Doesn't affect other listeners, which can be added without being beans.
 	 */
-	protected void registerListeners() {
+ 	protected void registerListeners() {
 		// Register statically specified listeners first.
 		for (ApplicationListener<?> listener : getApplicationListeners()) {
 			getApplicationEventMulticaster().addApplicationListener(listener);

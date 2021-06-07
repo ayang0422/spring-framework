@@ -155,6 +155,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	/**
 	 * The name of the currently created bean, for implicit dependency registration
 	 * on getBean etc invocations triggered from a user-specified Supplier callback.
+	 * 当前创建的bean的名称，用于从用户指定的Supplier回调触发的对getBean等调用的隐式依赖项注册。
 	 */
 	private final NamedThreadLocal<String> currentlyCreatedBean = new NamedThreadLocal<>("Currently created bean");
 
@@ -1258,6 +1259,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected Object getObjectForBeanInstance(
 			Object beanInstance, String name, String beanName, @Nullable RootBeanDefinition mbd) {
 
+		//
 		String currentlyCreatedBean = this.currentlyCreatedBean.get();
 		if (currentlyCreatedBean != null) {
 			registerDependentBean(beanName, currentlyCreatedBean);

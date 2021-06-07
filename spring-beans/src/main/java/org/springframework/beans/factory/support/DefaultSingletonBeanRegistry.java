@@ -74,13 +74,30 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	private static final int SUPPRESSED_EXCEPTIONS_LIMIT = 100;
 
 
-	/** Cache of singleton objects: bean name to bean instance. */
+	/**
+	 * Cache of singleton objects: bean name to bean instance.
+	 * bean实例的缓存,beanName和bean
+	 * %%%	一级缓存	%%%
+	 */
 	private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>(256);
 
-	/** Cache of singleton factories: bean name to ObjectFactory. */
+	/**
+	 * Cache of singleton factories: bean name to ObjectFactory.
+	 * 单例工厂的缓存 objectName和对应的ObjectFactory
+	 *
+	 * $$$	三级缓存	%%%
+	 */
 	private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>(16);
 
-	/** Cache of early singleton objects: bean name to bean instance. */
+	/**
+	 * Cache of early singleton objects: bean name to bean instance.
+	 * 早期单例对象的缓存：bean名到bean实例。
+	 *
+	 * 与singletonObjects不同之处是当一个bean被放入这里后，那么当bean还在创建过程中就可以通过getBean的方式获取到
+	 * 目的是检测循环引用
+	 *
+	 * %%%	二级缓存	%%%
+	 */
 	private final Map<String, Object> earlySingletonObjects = new ConcurrentHashMap<>(16);
 
 	/** Set of registered singletons, containing the bean names in registration order. */
@@ -179,12 +196,17 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	@Nullable
 	protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 		// Quick check for existing instance without full singleton lock
+		// 检查缓存中是否存在
 		Object singletonObject = this.singletonObjects.get(beanName);
+		// 如果不存在且不在创建中
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+			// 版本略有改动，spring3.2中没有重新获取singletonObject
 			singletonObject = this.earlySingletonObjects.get(beanName);
+			// 当某些方法需要提前初始化的时候
 			if (singletonObject == null && allowEarlyReference) {
 				synchronized (this.singletonObjects) {
 					// Consistent creation of early reference within full singleton lock
+					// 在完整单例锁中一致地创建早期引用
 					singletonObject = this.singletonObjects.get(beanName);
 					if (singletonObject == null) {
 						singletonObject = this.earlySingletonObjects.get(beanName);
@@ -192,6 +214,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 							if (singletonFactory != null) {
 								singletonObject = singletonFactory.getObject();
+								// 早起bean缓存和单例bean缓存互斥
 								this.earlySingletonObjects.put(beanName, singletonObject);
 								this.singletonFactories.remove(beanName);
 							}
@@ -350,7 +373,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @param beanName the name of the singleton about to be created
 	 * @see #isSingletonCurrentlyInCreation
 	 */
-	protected void beforeSingletonCreation(String beanName) {
+	protected void  beforeSingletonCreation(String beanName) {
 		if (!this.inCreationCheckExclusions.contains(beanName) && !this.singletonsCurrentlyInCreation.add(beanName)) {
 			throw new BeanCurrentlyInCreationException(beanName);
 		}
