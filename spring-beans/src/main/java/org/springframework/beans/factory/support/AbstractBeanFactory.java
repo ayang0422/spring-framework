@@ -259,7 +259,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// 在创建bean的是时候，可能会出现依赖注入的情况，而在创建的时候为了避免循环依赖
 		// spring创建bean的原则是不等bean创建完成就将bean的ObjectFactory暴露出来
 		// 也就是将ObjectFactory加入到缓存中，如果有依赖的就直接使用ObjectFactory
-		Object sharedInstance = getSingleton(beanName);
+  		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {
 				if (isSingletonCurrentlyInCreation(beanName)) {
@@ -1569,6 +1569,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		}
 	}
 
+	/**
+	 * 真正去解析beanClass的方法
+	 * @param mbd
+	 * @param typesToMatch
+	 * @return
+	 * @throws ClassNotFoundException
+	 */
 	@Nullable
 	private Class<?> doResolveBeanClass(RootBeanDefinition mbd, Class<?>... typesToMatch)
 			throws ClassNotFoundException {

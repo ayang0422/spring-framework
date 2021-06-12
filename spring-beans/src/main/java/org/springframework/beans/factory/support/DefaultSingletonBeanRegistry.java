@@ -111,11 +111,15 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	private final Set<String> inCreationCheckExclusions =
 			Collections.newSetFromMap(new ConcurrentHashMap<>(16));
 
-	/** Collection of suppressed Exceptions, available for associating related causes. */
+	/** Collection of suppressed Exceptions, available for associating related causes.
+	 * 抑制异常的集合，可用于关联相关原因。
+	 */
+
 	@Nullable
 	private Set<Exception> suppressedExceptions;
 
 	/** Flag that indicates whether we're currently within destroySingletons. */
+	// 指示我们当前是否在 destroySingletons 中的标志。 默认false
 	private boolean singletonsCurrentlyInDestruction = false;
 
 	/** Disposable bean instances: bean name to disposable instance. */
@@ -214,7 +218,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 							if (singletonFactory != null) {
 								singletonObject = singletonFactory.getObject();
-								// 早起bean缓存和单例bean缓存互斥
+								// 早期bean缓存和单例bean缓存互斥
 								this.earlySingletonObjects.put(beanName, singletonObject);
 								this.singletonFactories.remove(beanName);
 							}
@@ -251,9 +255,23 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 				boolean newSingleton = false;
 				boolean recordSuppressedExceptions = (this.suppressedExceptions == null);
 				if (recordSuppressedExceptions) {
+					// 初始化
 					this.suppressedExceptions = new LinkedHashSet<>();
 				}
 				try {
+					// 调用外面传入的匿名方法 真正去执行创建bean
+					// () -> {
+					//						try {
+					//							return createBean(beanName, mbd, args);
+					//						}
+					//						catch (BeansException ex) {
+					//							// Explicitly remove instance from singleton cache: It might have been put there
+					//							// eagerly by the creation process, to allow for circular reference resolution.
+					//							// Also remove any beans that received a temporary reference to the bean.
+					//							destroySingleton(beanName);
+					//							throw ex;
+					//						}
+					//					}
 					singletonObject = singletonFactory.getObject();
 					newSingleton = true;
 				}
@@ -374,6 +392,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @see #isSingletonCurrentlyInCreation
 	 */
 	protected void  beforeSingletonCreation(String beanName) {
+		// 创建中检查的map和单例正在创建中的map都不包含当前beanName
 		if (!this.inCreationCheckExclusions.contains(beanName) && !this.singletonsCurrentlyInCreation.add(beanName)) {
 			throw new BeanCurrentlyInCreationException(beanName);
 		}
