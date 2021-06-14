@@ -564,7 +564,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			// Tell the subclass to refresh the internal bean factory.
 			// 告诉子类刷新内部 bean 工厂。
-			// 如果bean工厂已经存在，那么销毁所有的bean，并且释放bean工厂
+			// 如果bean工厂已经存在，那么销毁所有的bean，并且释放bean工厂  读取并解析配置文件 生成beanDefinition
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
@@ -583,7 +583,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
-				// 注册拦截 bean 创建的 bean 处理器
+				// 注册拦截 bean 创建的 bean 处理器  bean的扩展
 				registerBeanPostProcessors(beanFactory);
 				beanPostProcess.end();
 
@@ -928,6 +928,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// Register a default embedded value resolver if no BeanFactoryPostProcessor
 		// (such as a PropertySourcesPlaceholderConfigurer bean) registered any before:
 		// at this point, primarily for resolution in annotation attribute values.
+		// 如果之前没有注册任何 BeanFactoryPostProcessor（例如 PropertySourcesPlaceholderConfigurer bean），
+		// 则注册一个默认的嵌入值解析器：此时，主要用于注释属性值的解析
 		if (!beanFactory.hasEmbeddedValueResolver()) {
 			beanFactory.addEmbeddedValueResolver(strVal -> getEnvironment().resolvePlaceholders(strVal));
 		}

@@ -15,8 +15,10 @@ public class Test {
 //		System.out.println("a的B属性是:" + bean.getB());
 
 
+		long t1 = System.currentTimeMillis();
 		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
-
+		long t2 = System.currentTimeMillis();
+		System.out.println("init IoC container with " + (t2 - t1) + "ms");
 		A bean = applicationContext.getBean(A.class);
 		System.out.println("a的B属性是:" + bean.getB());
 	}
