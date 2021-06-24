@@ -1,6 +1,8 @@
 package com.yang.test;
 
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 
 /**
  * @author yangpeng`
@@ -21,5 +23,10 @@ public class Test {
 		System.out.println("init IoC container with " + (t2 - t1) + "ms");
 		A bean = applicationContext.getBean(A.class);
 		System.out.println("a的B属性是:" + bean.getB());
+	}
+
+	public static void  main2(){
+//		XmlBeanFactory xmlBeanFactory = new XmlBeanFactory(new ClassPathResource(""));
+//		xmlBeanFactory.
 	}
 }

@@ -33,6 +33,7 @@ import org.springframework.lang.Nullable;
 
 /**
  * Post-processor that registers AspectJ's
+ * // 注册 AspectJ 的后处理器
  * {@link org.aspectj.weaver.loadtime.ClassPreProcessorAgentAdapter}
  * with the Spring application context's default
  * {@link org.springframework.instrument.classloading.LoadTimeWeaver}.

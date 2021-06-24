@@ -79,6 +79,9 @@ import org.springframework.util.ResourceUtils;
  *
  * <p><b>NOTE: Spring's JPA support requires JPA 2.1 or higher, as of Spring 5.0.</b>
  *
+ * PersistenceUnitManager接口的默认实现。 由org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean用作内部默认值。
+ * 支持对persistence.xml文件的标准JPA 扫描，具有可配置的文件位置、JDBC 数据源查找和加载时编织。
+ *
  * @author Juergen Hoeller
  * @author Stephane Nicoll
  * @since 2.0
