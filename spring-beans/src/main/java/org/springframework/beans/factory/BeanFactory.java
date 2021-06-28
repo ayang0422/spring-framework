@@ -125,9 +125,9 @@ import org.springframework.lang.Nullable;
  *
  * <p>On shutdown of a bean factory, the following lifecycle methods apply:
  * <ol>
- * <li>{@code postProcessBeforeDestruction} methods of DestructionAwareBeanPostProcessors
- * <li>DisposableBean's {@code destroy}
- * <li>a custom destroy-method definition
+	 * <li>{@code postProcessBeforeDestruction} methods of DestructionAwareBeanPostProcessors
+	 * <li>DisposableBean's {@code destroy}
+	 * <li>a custom destroy-method definition
  * </ol>
  *
  * @author Rod Johnson

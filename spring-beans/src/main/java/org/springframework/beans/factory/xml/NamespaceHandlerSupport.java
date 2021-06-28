@@ -66,6 +66,7 @@ public abstract class NamespaceHandlerSupport implements NamespaceHandler {
 	/**
 	 * Parses the supplied {@link Element} by delegating to the {@link BeanDefinitionParser} that is
 	 * registered for that {@link Element}.
+	 * 解析所提供的Element通过委托给BeanDefinitionParser被注册为Element
 	 */
 	@Override
 	@Nullable

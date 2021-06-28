@@ -41,6 +41,11 @@ import org.springframework.util.Assert;
  * <p>Processing of Spring Advisors follows the rules established in
  * {@link org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator}.
  *
+ * AspectJAwareAdvisorAutoProxyCreator子类，用于处理当前应用程序上下文中的所有 AspectJ 注释方面，以及 Spring Advisor。
+ * 任何带有 AspectJ 注释的类都将被自动识别，并且如果 Spring AOP 的基于代理的模型能够应用它们的建议。 这涵盖了方法执行连接点。
+ * 如果使用 <aop:include> 元素，则只有名称与包含模式匹配的 @AspectJ bean 才会被视为定义用于 Spring 自动代理的方面。
+ * Spring Advisor 的处理遵循org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator建立的规则
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 2.0
@@ -89,6 +94,8 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 	@Override
 	protected List<Advisor> findCandidateAdvisors() {
 		// Add all the Spring advisors found according to superclass rules.
+		// 当使用注解方式的时候并没有丢弃xml的支持，
+		// 调用父类方法加载配置文件中的aop的声明
 		List<Advisor> advisors = super.findCandidateAdvisors();
 		// Build Advisors for all AspectJ aspects in the bean factory.
 		if (this.aspectJAdvisorsBuilder != null) {

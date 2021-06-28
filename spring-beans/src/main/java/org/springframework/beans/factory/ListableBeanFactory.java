@@ -49,6 +49,20 @@ import org.springframework.lang.Nullable;
  * and {@code containsBeanDefinition}, the methods in this interface
  * are not designed for frequent invocation. Implementations may be slow.
  *
+ * BeanFactory接口的扩展，由可以枚举其所有 bean 实例的 bean 工厂实现，
+ * 而不是按照客户的要求逐一尝试通过名称查找 bean。 预加载所有 bean 定义的 BeanFactory 实现（例如基于 XML 的工厂）可以实现此接口。
+ * 如果这是一个HierarchicalBeanFactory ，则返回值不会考虑任何 BeanFactory 层次结构，而只会与当前工厂中定义的 bean 相关。
+ *
+ * 使用BeanFactoryUtils辅助类也可以考虑祖先工厂中的 bean。
+ * 此接口中的方法将仅尊重此工厂的 bean 定义。
+ * 他们将忽略任何通过其他方式注册的单例 bean，比如org.springframework.beans.factory.config.ConfigurableBeanFactory的registerSingleton方法，
+ * 除了getBeanNamesForType和getBeansOfType ，它们也会检查这些手动注册的单例。
+ * 当然，BeanFactory 的getBean也允许透明访问这些特殊的 bean。
+ * 但是，在典型的场景中，无论如何，所有的 bean 都会被外部 bean 定义定义，所以大多数应用程序不需要担心这种区分。
+ *
+ *
+ * 注意：除了getBeanDefinitionCount和containsBeanDefinition ，此接口中的方法不是为频繁调用而设计的。 实现可能很慢
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 16 April 2001

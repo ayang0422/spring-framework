@@ -47,6 +47,21 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
  *     pointcut-ref=&quot;getNameCalls&quot;
  *     advice-ref=&quot;getNameCounter&quot;/&gt;</pre>
  *
+ *     aop命名空间的NamespaceHandler 。
+ * 为<aop:config>标签提供一个BeanDefinitionParser 。 config标签可以包括嵌套的pointcut 、 advisor和aspect标签。
+ * pointcut标记允许使用简单的语法创建命名的AspectJExpressionPointcut bean：
+ *    <aop:pointcut id="getNameCalls" expression="execution(* *..ITestBean.getName(..))"/>
+ *
+ * 使用advisor的标签，您可以配置一个org.springframework.aop.Advisor并将其应用到所有相关org.springframework.beans.factory.BeanFactory自动。
+ * advisor标签支持内联和引用Pointcuts ：
+ *    <aop:advisor id="getAgeAdvisor"
+ *        pointcut="execution(* *..ITestBean.getAge(..))"
+ *        advice-ref="getAgeCounter"/>
+ *
+ *    <aop:advisor id="getNameAdvisor"
+ *        pointcut-ref="getNameCalls"
+ *        advice-ref="getNameCounter"/>
+ *
  * @author Rob Harrop
  * @author Adrian Colyer
  * @author Juergen Hoeller

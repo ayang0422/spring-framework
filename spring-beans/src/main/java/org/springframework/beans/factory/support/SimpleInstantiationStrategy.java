@@ -37,6 +37,10 @@ import org.springframework.util.StringUtils;
  * <p>Does not support Method Injection, although it provides hooks for subclasses
  * to override to add Method Injection support, for example by overriding methods.
  *
+ * 在BeanFactory 中使用的简单对象实例化策略。
+ * 不支持方法注入，
+ * 尽管它为子类提供钩子去重写以便支持方法注入支持，例如通过覆盖方法
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 1.1

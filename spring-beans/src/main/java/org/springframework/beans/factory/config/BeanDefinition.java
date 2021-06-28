@@ -79,6 +79,9 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	 * entirely background role and has no relevance to the end-user. This hint is
 	 * used when registering beans that are completely part of the internal workings
 	 * of a {@link org.springframework.beans.factory.parsing.ComponentDefinition}.
+	 *
+	 * 角色提示指示BeanDefinition提供完全后台角色并且与最终用户无关。
+	 * 在注册完全属于org.springframework.beans.factory.parsing.ComponentDefinition的内部工作的 bean 时使用此提示。
 	 */
 	int ROLE_INFRASTRUCTURE = 2;
 
