@@ -64,6 +64,7 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 	@Override
 	public Object instantiate(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner) {
 		// Don't override the class with CGLIB if no overrides.
+		// 如果没有覆盖，不要用 CGLIB 覆盖类
 		if (!bd.hasMethodOverrides()) {
 			Constructor<?> constructorToUse;
 			synchronized (bd.constructorArgumentLock) {
@@ -88,10 +89,13 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 					}
 				}
 			}
+			// 使用默认构造器实例化bean
 			return BeanUtils.instantiateClass(constructorToUse);
 		}
 		else {
 			// Must generate CGLIB subclass.
+			// 只生成CGLIB 子类
+			// 使用方法注入实例化
 			return instantiateWithMethodInjection(bd, beanName, owner);
 		}
 	}
@@ -101,6 +105,9 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
 	 * UnsupportedOperationException, if they can instantiate an object with
 	 * the Method Injection specified in the given RootBeanDefinition.
 	 * Instantiation should use a no-arg constructor.
+	 * 如果子类可以使用给定 RootBeanDefinition 中指定的方法注入实例化对象，
+	 * 则子类可以覆盖此方法，该方法被实现为抛出 UnsupportedOperationException。
+	 * 实例化应该使用无参数构造函数
 	 */
 	protected Object instantiateWithMethodInjection(RootBeanDefinition bd, @Nullable String beanName, BeanFactory owner) {
 		throw new UnsupportedOperationException("Method Injection not supported in SimpleInstantiationStrategy");

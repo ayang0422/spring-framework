@@ -35,6 +35,19 @@ import org.springframework.lang.Nullable;
  * created. A plain {@code BeanFactory} allows for programmatic registration of
  * post-processors, applying them to all beans created through the bean factory.
  *
+ * 允许自定义修改新 bean 实例的工厂钩子 - 例如，检查标记接口或使用代理包装 bean。
+ * 通常，通过标记接口等填充 bean 的后处理器将实现postProcessBeforeInitialization ，
+ * 而使用代理包装 bean 的后处理器通常将实现postProcessAfterInitialization 。
+ * 登记
+ * ApplicationContext可以在其 bean 定义中自动检测BeanPostProcessor bean，并将这些后处理器应用于随后创建的任何 bean。
+ * 普通的BeanFactory允许以编程方式注册后处理器，将它们应用于通过 bean 工厂创建的所有 bean。
+ * 订购
+ * 在ApplicationContext中自动检测的BeanPostProcessor bean
+ * 将根据org.springframework.core.PriorityOrdered和org.springframework.core.Ordered语义进行排序。
+ * 相比之下，以编程方式注册到BeanFactory BeanPostProcessor bean 将按注册顺序应用；
+ * 对于以编程方式注册的后处理器，通过实现PriorityOrdered或Ordered接口表达的任何排序语义都将被忽略。
+ * 此外，@ @Order注释不会被BeanPostProcessor bean 考虑在内
+ *
  * <h3>Ordering</h3>
  * <p>{@code BeanPostProcessor} beans that are autodetected in an
  * {@code ApplicationContext} will be ordered according to

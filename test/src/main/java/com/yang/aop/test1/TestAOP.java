@@ -7,6 +7,10 @@ package com.yang.aop.test1;
  */
 public class TestAOP {
 
+	public TestAOP(){
+		System.out.println("TestAOP construct used");
+	}
+
 
 	public void test(){
 		System.out.println("test running");

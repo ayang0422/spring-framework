@@ -505,6 +505,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		// Make sure bean class is actually resolved at this point, and
 		// clone the bean definition in case of a dynamically resolved Class
 		// which cannot be stored in the shared merged bean definition.
+		// 确保此时真正解析了 bean 类，并在动态解析的类无法存储在共享合并 bean 定义中的情况下克隆 bean 定义。
 		Class<?> resolvedClass = resolveBeanClass(mbd, beanName);
 		if (resolvedClass != null && !mbd.hasBeanClass() && mbd.getBeanClassName() != null) {
 			mbdToUse = new RootBeanDefinition(mbd);
@@ -512,6 +513,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// Prepare method overrides.
+		// 准备方法覆盖
 		try {
 			mbdToUse.prepareMethodOverrides();
 		}
@@ -523,7 +525,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		try {
 			// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.
 			// 给BeanPostProcessors一个机会去返回代理对象，而不是目标bean的实例
+			// 执行beanPostProcessor的postProcessBeforeInstantiation()和postProcessAfterInitialization()
 			Object bean = resolveBeforeInstantiation(beanName, mbdToUse);
+			// 如果beanPostProcessor已经产生代理的对象，直接将该对象返回
 			if (bean != null) {
 				return bean;
 			}
@@ -556,6 +560,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * at this point, e.g. checking {@code postProcessBeforeInstantiation} callbacks.
 	 * <p>Differentiates between default bean instantiation, use of a
 	 * factory method, and autowiring a constructor.
+	 *
+	 * 实际创建指定的bean。 预创建处理此时已经发生，例如检查postProcessBeforeInstantiation回调。
+	 * 区分默认 bean 实例化、工厂方法的使用和自动装配构造函数。
+	 *
 	 * @param beanName the name of the bean
 	 * @param mbd the merged bean definition for the bean
 	 * @param args explicit arguments to use for constructor or factory method invocation
@@ -584,6 +592,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// Allow post-processors to modify the merged bean definition.
+		// 允许beanPostProcessor更改合并的beanDefinition
 		synchronized (mbd.postProcessingLock) {
 			if (!mbd.postProcessed) {
 				try {
@@ -1121,6 +1130,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	/**
 	 * Apply before-instantiation post-processors, resolving whether there is a
 	 * before-instantiation shortcut for the specified bean.
+	 *
+	 * 应用实例化前的后处理器，解决指定 bean 是否有实例化前的快捷方式。
+	 *
 	 * @param beanName the name of the bean
 	 * @param mbd the bean definition for the bean
 	 * @return the shortcut-determined bean instance, or {@code null} if none
@@ -1130,9 +1142,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		Object bean = null;
 		if (!Boolean.FALSE.equals(mbd.beforeInstantiationResolved)) {
 			// Make sure bean class is actually resolved at this point.
+			// 确保此时真正的解析了bean类
 			if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
 				Class<?> targetType = determineTargetType(beanName, mbd);
+				//
 				if (targetType != null) {
+					// postProcessBeforeInstantiation()先执行，执行成功后如果已经返回代理对象，那么立马执行postProcessAfterInstantiation()
+					// 因为此时bean已经初始化完成，并且初始化方法也已经执行完成了
 					bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName);
 					if (bean != null) {
 						bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
@@ -1169,6 +1185,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	/**
 	 * Create a new instance for the specified bean, using an appropriate instantiation strategy:
 	 * factory method, constructor autowiring, or simple instantiation.
+	 * 使用适当的实例化策略为指定的 bean 创建一个新实例：工厂方法、构造函数自动装配或简单实例化。
 	 * @param beanName the name of the bean
 	 * @param mbd the bean definition for the bean
 	 * @param args explicit arguments to use for constructor or factory method invocation
@@ -1197,6 +1214,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		// Shortcut when re-creating the same bean...
+		// 重新创建同一个bean时的快捷方式.....
 		boolean resolved = false;
 		boolean autowireNecessary = false;
 		if (args == null) {
@@ -1237,6 +1255,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	/**
 	 * Obtain a bean instance from the given supplier.
+	 * 从给定的供应商处获取一个 bean 实例
 	 * @param instanceSupplier the configured supplier
 	 * @param beanName the corresponding bean name
 	 * @return a BeanWrapper for the new instance
@@ -1314,6 +1333,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 	/**
 	 * Instantiate the given bean using its default constructor.
+	 * 使用其默认构造函数实例化给定的 bean
 	 * @param beanName the name of the bean
 	 * @param mbd the bean definition for the bean
 	 * @return a BeanWrapper for the new instance
@@ -1343,6 +1363,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * Instantiate the bean using a named factory method. The method may be static, if the
 	 * mbd parameter specifies a class, rather than a factoryBean, or an instance variable
 	 * on a factory object itself configured using Dependency Injection.
+	 * 使用命名工厂方法实例化 bean。
+	 * 如果 mbd 参数指定一个类，而不是 factoryBean，或者使用依赖注入配置的工厂对象本身的实例变量，则该方法可能是静态的。
 	 * @param beanName the name of the bean
 	 * @param mbd the bean definition for the bean
 	 * @param explicitArgs argument values passed in programmatically via the getBean method,
@@ -1801,10 +1823,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
-			// 执行beanPostProcessor方法的before方法
+			// 执行beanPostProcessor的postProcessBeforeInitialization()
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
+		// 执行初始化方法
 		try {
 			invokeInitMethods(beanName, wrappedBean, mbd);
 		}
@@ -1814,7 +1837,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Invocation of init method failed", ex);
 		}
 		if (mbd == null || !mbd.isSynthetic()) {
-			// 执行beanPostProcessor方法的after方法
+			// // 执行beanPostProcessor的postProcessAfterInitialization()
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 

@@ -7,4 +7,8 @@ package com.yang.test_beanpostprocessor;
  */
 public class B {
 
+	public B(){
+		System.out.println("init b");
+	}
+
 }

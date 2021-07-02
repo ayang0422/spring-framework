@@ -1541,6 +1541,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Resolve the bean class for the specified bean definition,
 	 * resolving a bean class name into a Class reference (if necessary)
 	 * and storing the resolved Class in the bean definition for further use.
+	 * 为指定的 bean 定义解析 bean 类，
+	 * 将 bean 类名称解析为 Class 引用（如果需要）并将解析的 Class 存储在 bean 定义中以供进一步使用。
 	 * @param mbd the merged bean definition to determine the class for
 	 * @param beanName the name of the bean (for error handling purposes)
 	 * @param typesToMatch the types to match in case of internal type matching purposes
