@@ -37,6 +37,14 @@ public interface AdvisorAdapterRegistry {
 	 * {@link org.springframework.aop.MethodBeforeAdvice},
 	 * {@link org.springframework.aop.AfterReturningAdvice},
 	 * {@link org.springframework.aop.ThrowsAdvice}.
+	 *
+	 * 返回包装给定建议的Advisor 。
+	 * 默认情况下至少应该支持
+	 * MethodInterceptor ，
+	 * org.springframework.aop.MethodBeforeAdvice ，
+	 * org.springframework.aop.AfterReturningAdvice ，
+	 * org.springframework.aop.ThrowsAdvice 。
+	 *
 	 * @param advice an object that should be an advice
 	 * @return an Advisor wrapping the given advice (never {@code null};
 	 * if the advice parameter is an Advisor, it is to be returned as-is)

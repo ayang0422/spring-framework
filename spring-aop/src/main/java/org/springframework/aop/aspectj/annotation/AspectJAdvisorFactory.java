@@ -53,6 +53,7 @@ public interface AspectJAdvisorFactory {
 
 	/**
 	 * Is the given class a valid AspectJ aspect class?
+	 * 给定的类是有效的 AspectJ 方面类吗？
 	 * @param aspectClass the supposed AspectJ annotation-style class to validate
 	 * @throws AopConfigException if the class is an invalid aspect
 	 * (which can never be legal)
@@ -64,6 +65,9 @@ public interface AspectJAdvisorFactory {
 	/**
 	 * Build Spring AOP Advisors for all annotated At-AspectJ methods
 	 * on the specified aspect instance.
+	 *
+	 * 为指定切面实例上的所有带注释的 At-AspectJ 方法构建 Spring AOP 切面
+	 *
 	 * @param aspectInstanceFactory the aspect instance factory
 	 * (not the aspect instance itself in order to avoid eager instantiation)
 	 * @return a list of advisors for this class
@@ -72,6 +76,7 @@ public interface AspectJAdvisorFactory {
 
 	/**
 	 * Build a Spring AOP Advisor for the given AspectJ advice method.
+	 * 为给定的 AspectJ 建议方法构建一个 Spring AOP 切面。
 	 * @param candidateAdviceMethod the candidate advice method
 	 * @param aspectInstanceFactory the aspect instance factory
 	 * @param declarationOrder the declaration order within the aspect
@@ -86,6 +91,7 @@ public interface AspectJAdvisorFactory {
 
 	/**
 	 * Build a Spring AOP Advice for the given AspectJ advice method.
+	 * 为给定的 AspectJ 建议方法构建一个 Spring AOP 切面。
 	 * @param candidateAdviceMethod the candidate advice method
 	 * @param expressionPointcut the AspectJ expression pointcut
 	 * @param aspectInstanceFactory the aspect instance factory

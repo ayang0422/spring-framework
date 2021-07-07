@@ -63,6 +63,9 @@ public class ProxyConfig implements Serializable {
 
 	/**
 	 * Return whether to proxy the target class directly as well as any interfaces.
+	 * 返回是否直接代理目标类以及任何接口。
+	 *
+	 * 为true时表示，目标类本身被代理，而不是目标类的接口
 	 */
 	public boolean isProxyTargetClass() {
 		return this.proxyTargetClass;
@@ -85,6 +88,9 @@ public class ProxyConfig implements Serializable {
 
 	/**
 	 * Return whether proxies should perform aggressive optimizations.
+	 * 返回代理是否应该执行积极的优化。
+	 *
+	 * 用来控制通过cglib创建的代理是否使用激进的优化策略（普通人用不到）
 	 */
 	public boolean isOptimize() {
 		return this.optimize;
@@ -149,6 +155,7 @@ public class ProxyConfig implements Serializable {
 
 	/**
 	 * Copy configuration from the other config object.
+	 * 从其他配置对象复制属性
 	 * @param other object to copy configuration from
 	 */
 	public void copyFrom(ProxyConfig other) {

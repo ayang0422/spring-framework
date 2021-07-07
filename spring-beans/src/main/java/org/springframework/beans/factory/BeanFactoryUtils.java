@@ -246,6 +246,12 @@ public abstract class BeanFactoryUtils {
 	 * will be matched against the type. If "allowEagerInit" is not set,
 	 * only raw FactoryBeans will be checked (which doesn't require initialization
 	 * of each FactoryBean).
+	 *
+	 * 获取给定类型的所有 bean 名称，包括在祖先工厂中定义的名称。 在覆盖 bean 定义的情况下将返回唯一名称。
+	 * 如果设置了“allowEagerInit”标志，则考虑由 FactoryBeans 创建的对象，
+	 * 这意味着 FactoryBeans 将被初始化。 如果 FactoryBean 创建的对象不匹配，则原始 FactoryBean 本身将与类型匹配。
+	 * 如果未设置“allowEagerInit”，则只会检查原始 FactoryBeans（不需要初始化每个 FactoryBean）。
+	 *
 	 * @param lbf the bean factory
 	 * @param includeNonSingletons whether to include prototype or scoped beans too
 	 * or just singletons (also applies to FactoryBeans)

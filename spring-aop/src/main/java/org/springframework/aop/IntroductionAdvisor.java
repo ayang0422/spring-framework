@@ -25,6 +25,10 @@ package org.springframework.aop;
  * <p>Introduction is the implementation of additional interfaces
  * (not implemented by a target) via AOP advice.
  *
+ * 执行一个或多个 AOP引介的切面的超级接口。
+ * 该接口不能直接实现； 子接口必须提供实现介绍的建议类型。
+ * 介绍是通过 AOP 建议实现附加接口（不是由目标实现的）。
+ *
  * @author Rod Johnson
  * @since 04.04.2003
  * @see IntroductionInterceptor

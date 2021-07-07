@@ -98,6 +98,7 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 		// 调用父类方法加载配置文件中的aop的声明
 		List<Advisor> advisors = super.findCandidateAdvisors();
 		// Build Advisors for all AspectJ aspects in the bean factory.
+		// 为 bean 工厂中的所有 AspectJ 方面构建切面
 		if (this.aspectJAdvisorsBuilder != null) {
 			advisors.addAll(this.aspectJAdvisorsBuilder.buildAspectJAdvisors());
 		}
@@ -123,6 +124,11 @@ public class AnnotationAwareAspectJAutoProxyCreator extends AspectJAwareAdvisorA
 	 * <p>If no &lt;aop:include&gt; elements were used then "includePatterns" will be
 	 * {@code null} and all beans are included. If "includePatterns" is non-null,
 	 * then one of the patterns must match.
+	 *
+	 * 检查给定的方面 bean 是否有资格进行自动代理。
+	 * <p>如果没有使用 <aop:include> 元素，那么 "includePatterns" 将是 {@code null} 并且包含所有 bean。
+	 * 如果“includePatterns”不为空，则模式之一必须匹配。
+	 *
 	 */
 	protected boolean isEligibleAspectBean(String beanName) {
 		if (this.includePatterns == null) {

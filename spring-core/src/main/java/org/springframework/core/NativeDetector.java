@@ -22,6 +22,9 @@ package org.springframework.core;
  * <p>Requires using the {@code -H:+InlineBeforeAnalysis} native image compiler flag in order to allow code removal at
  * build time.
  *
+ * 用于检测 GraalVM 本机图像环境的通用委托。
+ * 需要使用-H:+InlineBeforeAnalysis本机图像编译器标志，以便允许在构建时删除代码。
+ *
  * @author Sebastien Deleuze
  * @since 5.3.4
  */

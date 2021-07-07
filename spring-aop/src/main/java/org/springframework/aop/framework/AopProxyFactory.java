@@ -45,6 +45,9 @@ public interface AopProxyFactory {
 
 	/**
 	 * Create an {@link AopProxy} for the given AOP configuration.
+	 *
+	 * 为给定的 AOP 配置创建一个AopProxy 。
+	 *
 	 * @param config the AOP configuration in the form of an
 	 * AdvisedSupport object
 	 * @return the corresponding AOP proxy

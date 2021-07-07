@@ -98,6 +98,10 @@ public class ProxyProcessorSupport extends ProxyConfig implements Ordered, BeanC
 	 * if appropriate.
 	 * <p>Calls {@link #isConfigurationCallbackInterface} and {@link #isInternalLanguageInterface}
 	 * to filter for reasonable proxy interfaces, falling back to a target-class proxy otherwise.
+	 *
+	 * 如果合适，检查给定 bean 类上的接口并将它们应用到ProxyFactory 。
+	 * 调用isConfigurationCallbackInterface和isInternalLanguageInterface来过滤合理的代理接口，否则回退到目标类代理。
+	 *
 	 * @param beanClass the class of the bean
 	 * @param proxyFactory the ProxyFactory for the bean
 	 */
@@ -113,7 +117,9 @@ public class ProxyProcessorSupport extends ProxyConfig implements Ordered, BeanC
 		}
 		if (hasReasonableProxyInterface) {
 			// Must allow for introductions; can't just set interfaces to the target's interfaces only.
+			// 必须允许介绍；不能只将接口设置为目标的接口。
 			for (Class<?> ifc : targetInterfaces) {
+				// 添加代理接口
 				proxyFactory.addInterface(ifc);
 			}
 		}
@@ -127,6 +133,10 @@ public class ProxyProcessorSupport extends ProxyConfig implements Ordered, BeanC
 	 * therefore not to be considered as a reasonable proxy interface.
 	 * <p>If no reasonable proxy interface is found for a given bean, it will get
 	 * proxied with its full target class, assuming that as the user's intention.
+	 *
+	 * 确定给定的接口是否只是容器回调，因此不被视为合理的代理接口。
+	 * 如果没有为给定的 bean 找到合理的代理接口，它将使用其完整的目标类进行代理，假设这是用户的意图。
+	 *
 	 * @param ifc the interface to check
 	 * @return whether the given interface is just a container callback
 	 */
@@ -140,6 +150,10 @@ public class ProxyProcessorSupport extends ProxyConfig implements Ordered, BeanC
 	 * and therefore not to be considered as a reasonable proxy interface.
 	 * <p>If no reasonable proxy interface is found for a given bean, it will get
 	 * proxied with its full target class, assuming that as the user's intention.
+	 *
+	 * 确定给定的接口是否是众所周知的内部语言接口，因此不被视为合理的代理接口。
+	 * 如果没有为给定的 bean 找到合理的代理接口，它将使用其完整的目标类进行代理，假设这是用户的意图。
+	 *
 	 * @param ifc the interface to check
 	 * @return whether the given interface is an internal language interface
 	 */

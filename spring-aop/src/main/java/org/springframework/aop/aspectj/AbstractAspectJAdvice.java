@@ -367,6 +367,13 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 	 * value. We need to calculate which advice parameter needs to be bound
 	 * to which argument name. There are multiple strategies for determining
 	 * this binding, which are arranged in a ChainOfResponsibility.
+	 *
+	 * 作为设置的一部分，做尽可能多的工作，以便在后续通知调用上的参数绑定可以尽可能快。
+	 * 如果第一个参数是 JoinPoint 或 ProceedingJoinPoint 类型，那么我们在该位置传递一个 JoinPoint（ProceedingJoinPoint 用于环绕建议）。
+	 * 如果第一个参数是JoinPoint.StaticPart类型，那么我们在那个位置传递一个JoinPoint.StaticPart 。
+	 * 剩余的参数必须由给定连接点处的切入点评估绑定。 我们将返回一个从参数名称到值的映射。
+	 * 我们需要计算哪个通知参数需要绑定到哪个参数名称。 确定此绑定有多种策略，它们排列在 ChainOfResponsibility 中。
+	 *
 	 */
 	public final synchronized void calculateArgumentBindings() {
 		// The simple case... nothing to bind.
@@ -604,6 +611,7 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 
 	/**
 	 * Invoke the advice method.
+	 * // 执行切面方法
 	 * @param jpMatch the JoinPointMatch that matched this execution join point
 	 * @param returnValue the return value from the method execution (may be null)
 	 * @param ex the exception thrown by the method execution (may be null)
@@ -618,12 +626,19 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 	}
 
 	// As above, but in this case we are given the join point.
+	// 如上所述，但在这种情况下，我们获得了切入点。
 	protected Object invokeAdviceMethod(JoinPoint jp, @Nullable JoinPointMatch jpMatch,
 			@Nullable Object returnValue, @Nullable Throwable t) throws Throwable {
 
 		return invokeAdviceMethodWithGivenArgs(argBinding(jp, jpMatch, returnValue, t));
 	}
 
+	/**
+	 * 根据参数执行切面方法
+	 * @param args
+	 * @return
+	 * @throws Throwable
+	 */
 	protected Object invokeAdviceMethodWithGivenArgs(Object[] args) throws Throwable {
 		Object[] actualArgs = args;
 		if (this.aspectJAdviceMethod.getParameterCount() == 0) {
@@ -631,6 +646,7 @@ public abstract class AbstractAspectJAdvice implements Advice, AspectJPrecedence
 		}
 		try {
 			ReflectionUtils.makeAccessible(this.aspectJAdviceMethod);
+			// 激活切面方法
 			return this.aspectJAdviceMethod.invoke(this.aspectInstanceFactory.getAspectInstance(), actualArgs);
 		}
 		catch (IllegalArgumentException ex) {

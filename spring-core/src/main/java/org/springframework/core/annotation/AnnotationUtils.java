@@ -509,6 +509,12 @@ public abstract class AnnotationUtils {
 	 * <em>directly present</em> on the method.
 	 * <p>Annotations on methods are not inherited by default, so we need to handle
 	 * this explicitly.
+	 *
+	 * 在提供的Method上找到annotationType的单个Annotation ，如果该注释不直接存在于给定方法本身，则遍历其超方法（即来自超类和接口）。
+	 * 正确处理编译器生成的桥接Methods 。
+	 * 如果注释不直接存在于方法上，则将搜索元注释。
+	 * 默认情况下不会继承方法上的注释，因此我们需要显式处理它。
+	 *
 	 * @param method the method to look for annotations on
 	 * @param annotationType the annotation type to look for
 	 * @return the first matching annotation, or {@code null} if not found
@@ -521,12 +527,14 @@ public abstract class AnnotationUtils {
 		}
 
 		// Shortcut: directly present on the element, with no merging needed?
+		// 直接出现在元素上，不需要合并？
 		if (AnnotationFilter.PLAIN.matches(annotationType) ||
 				AnnotationsScanner.hasPlainJavaAnnotationsOnly(method)) {
 			return method.getDeclaredAnnotation(annotationType);
 		}
 
 		// Exhaustive retrieval of merged annotations...
+		// 对合并注释的详尽检索...
 		return MergedAnnotations.from(method, SearchStrategy.TYPE_HIERARCHY, RepeatableContainers.none())
 				.get(annotationType).withNonMergedAttributes()
 				.synthesize(MergedAnnotation::isPresent).orElse(null);
@@ -550,6 +558,16 @@ public abstract class AnnotationUtils {
 	 * <p>Note: in this context, the term <em>recursively</em> means that the search
 	 * process continues by returning to step #1 with the current interface,
 	 * annotation, or superclass as the class to look for annotations on.
+	 *
+	 * 提供的Class上查找annotationType的单个Annotation ，如果该注释不直接存在于给定类本身，则遍历其接口、注释和超类。
+	 * 此方法显式处理未声明为inherited类级注释以及元注释和接口上的注释。
+	 * 该算法的操作如下：
+	 * 	搜索给定类的注释，如果找到则返回。
+	 * 	递归搜索给定类声明的所有注释。
+	 * 	递归搜索给定类声明的所有接口。
+	 * 	递归搜索给定类的超类层次结构。
+	 * 注意：在此上下文中，术语递归表示搜索过程继续返回到步骤 #1，将当前接口、注释或超类作为要在其上查找注释的类。
+	 *
 	 * @param clazz the class to look for annotations on
 	 * @param annotationType the type of annotation to look for
 	 * @return the first matching annotation, or {@code null} if not found
@@ -561,6 +579,7 @@ public abstract class AnnotationUtils {
 		}
 
 		// Shortcut: directly present on the element, with no merging needed?
+		// 快捷方式：直接出现在元素上，不需要合并？
 		if (AnnotationFilter.PLAIN.matches(annotationType) ||
 				AnnotationsScanner.hasPlainJavaAnnotationsOnly(clazz)) {
 			A annotation = clazz.getDeclaredAnnotation(annotationType);
@@ -569,6 +588,7 @@ public abstract class AnnotationUtils {
 			}
 			// For backwards compatibility, perform a superclass search with plain annotations
 			// even if not marked as @Inherited: e.g. a findAnnotation search for @Deprecated
+			// 为了向后兼容，即使没有标记为@Inherited，也可以使用普通注释执行超类搜索：例如对@Deprecated 的 findAnnotation 搜索
 			Class<?> superclass = clazz.getSuperclass();
 			if (superclass == null || superclass == Object.class) {
 				return null;
