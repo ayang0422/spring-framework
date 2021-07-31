@@ -538,6 +538,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		try {
+			// bean的实例化
 			Object beanInstance = doCreateBean(beanName, mbdToUse, args);
 			if (logger.isTraceEnabled()) {
 				logger.trace("Finished creating instance of bean '" + beanName + "'");
@@ -1827,11 +1828,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
-			// 执行beanPostProcessor的postProcessBeforeInitialization()
+			// 执行beanPostProcessor#postProcessBeforeInitialization()
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
-		// 执行初始化方法
+		// 执行初始化方法(实现InitializingBean接口的bean才会使用该方法在这里执行初始化方法)
+		// 有PostConstruct注解的方法是在CommonAnnotationBeanPostProcessor中实现初始化方法的执行
 		try {
 			invokeInitMethods(beanName, wrappedBean, mbd);
 		}
@@ -1841,7 +1843,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Invocation of init method failed", ex);
 		}
 		if (mbd == null || !mbd.isSynthetic()) {
-			// // 执行beanPostProcessor的postProcessAfterInitialization()
+			// 执行beanPostProcessor#postProcessAfterInitialization()
 			// 实现aop的地方
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
@@ -1849,6 +1851,13 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		return wrappedBean;
 	}
 
+	/**
+	 * 执行织入方法
+	 *
+	 * 查看bean有没有实现Aware和BeanFactoryAware接口，如果实现了，就设置对应的属性到bean中
+	 * @param beanName
+	 * @param bean
+	 */
 	private void invokeAwareMethods(String beanName, Object bean) {
 		if (bean instanceof Aware) {
 			if (bean instanceof BeanNameAware) {

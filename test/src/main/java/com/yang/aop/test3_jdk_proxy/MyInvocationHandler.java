@@ -1,6 +1,7 @@
 package com.yang.aop.test3_jdk_proxy;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
@@ -22,7 +23,12 @@ public class MyInvocationHandler implements InvocationHandler {
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		System.out.println("-----------before-----------");
 
-		Object invoke = method.invoke(proxy, args);
+		Object invoke = null;
+		try {
+			invoke = method.invoke(proxy, args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		System.out.println("-----------after-----------");
 		return invoke;

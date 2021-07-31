@@ -3,6 +3,8 @@ package com.yang.test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @author yangpeng
  * @version 1.0.0
@@ -20,5 +22,10 @@ public class A {
 
 	public void setB(B b) {
 		this.b = b;
+	}
+
+	@PostConstruct
+	public void init(){
+		System.out.println("aaaaa");
 	}
 }

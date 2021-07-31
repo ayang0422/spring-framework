@@ -105,6 +105,11 @@ public class ProxyFactory extends ProxyCreatorSupport {
 	 * <p>Can be called repeatedly. Effect will vary if we've added
 	 * or removed interfaces. Can add and remove interceptors.
 	 * <p>Uses the given class loader (if necessary for proxy creation).
+	 *
+	 * 根据此工厂中的设置创建新代理。
+	 * 可以反复调用。 如果我们添加或删除接口，效果会有所不同。 可以添加和删除拦截器。
+	 * 使用给定的类加载器（如果需要创建代理）。
+	 *
 	 * @param classLoader the class loader to create the proxy with
 	 * (or {@code null} for the low-level proxy facility's default)
 	 * @return the proxy object

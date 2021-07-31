@@ -107,6 +107,24 @@ import org.springframework.util.StringValueResolver;
  * respectively. Default implementations of those operations can be found in
  * {@link DefaultListableBeanFactory} and {@link AbstractAutowireCapableBeanFactory}.
  *
+ * BeanFactory实现的抽象基类，提供了ConfigurableBeanFactory SPI 的全部功能。
+ * 不假设可列出的 bean 工厂：因此也可以用作 bean 工厂实现的基类，这些实现从某些后端资源获取 bean 定义（其中 bean 定义访问是一项昂贵的操作）。
+ * 此类提供单例缓存
+ * （通过其基类
+ * DefaultSingletonBeanRegistry 、
+ * 单例/原型确定、
+ * FactoryBean处理、
+ * 别名、
+ * bean 定义合并为子 bean 定义
+ * 和 bean 销毁（ org.springframework.beans.factory.DisposableBean接口，自定义销毁方法） .
+ * 此外，它可以通过实现org.springframework.beans.factory.HierarchicalBeanFactory接口
+ * 来管理 bean factory 层次结构（在未知 bean 的情况下委托给 parent）。、
+ *
+ * 子类要实现的主要模板方法是getBeanDefinition和createBean ，
+ * 分别为给定的 bean 名称检索 bean 定义和为给定的 bean 定义创建 bean 实例。
+ *
+ * 这些操作的默认实现可以在DefaultListableBeanFactory和AbstractAutowireCapableBeanFactory找到。
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @author Costin Leau
@@ -156,7 +174,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/** String resolvers to apply e.g. to annotation attribute values. */
 	private final List<StringValueResolver> embeddedValueResolvers = new CopyOnWriteArrayList<>();
 
-	/** BeanPostProcessors to apply. */
+	/**
+	 * BeanPostProcessors to apply.
+	 * 要应用的 BeanPostProcessors。
+	 */
 	private final List<BeanPostProcessor> beanPostProcessors = new BeanPostProcessorCacheAwareList();
 
 	/** Cache of pre-filtered post-processors. */
@@ -996,6 +1017,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/**
 	 * Return the list of BeanPostProcessors that will get applied
 	 * to beans created with this factory.
+	 * 返回将应用于使用此工厂创建的 bean 的 BeanPostProcessor 列表
 	 */
 	public List<BeanPostProcessor> getBeanPostProcessors() {
 		return this.beanPostProcessors;
