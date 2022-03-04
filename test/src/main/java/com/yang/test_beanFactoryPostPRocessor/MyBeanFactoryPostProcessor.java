@@ -13,6 +13,8 @@ import org.springframework.core.Ordered;
 public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor, Ordered {
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+		int beanDefinitionCount = beanFactory.getBeanDefinitionCount();
+		System.out.println("bean definition count is : " + beanDefinitionCount);
 		System.out.println("process MyBeanFactoryPostProcessor");
 	}
 

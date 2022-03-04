@@ -125,6 +125,10 @@ public abstract class AbstractAdvisingBeanPostProcessor extends ProxyProcessorSu
 
 	/**
 	 * Check whether the given class is eligible for advising with this
+	 *
+	 * 检查给定的类是否有资格使用此后处理器的Advisor提供建议。
+	 * 实现对每个 bean 目标类的canApply结果的缓存
+	 *
 	 * post-processor's {@link Advisor}.
 	 * <p>Implements caching of {@code canApply} results per bean target class.
 	 * @param targetClass the class to check against

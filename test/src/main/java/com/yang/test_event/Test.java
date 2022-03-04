@@ -24,6 +24,7 @@ public class Test {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("test_event.xml");
 		TestEvent testEvent = new TestEvent("hello", "this is msg");
 		context.publishEvent(testEvent);
+		context.close();
 	}
 
 }

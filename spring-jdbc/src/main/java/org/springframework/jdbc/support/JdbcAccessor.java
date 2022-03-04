@@ -77,6 +77,7 @@ public abstract class JdbcAccessor implements InitializingBean {
 
 	/**
 	 * Obtain the DataSource for actual use.
+	 * 获取实际使用的数据源
 	 * @return the DataSource (never {@code null})
 	 * @throws IllegalStateException in case of no DataSource set
 	 * @since 5.0

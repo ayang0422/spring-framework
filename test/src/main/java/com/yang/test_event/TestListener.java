@@ -13,7 +13,7 @@ public class TestListener implements ApplicationListener {
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof TestEvent){
 			TestEvent testEvent = (TestEvent)event;
-			System.out.println("i listened");
+			System.out.print("i listened---->");
 			testEvent.print();
 		}
 	}

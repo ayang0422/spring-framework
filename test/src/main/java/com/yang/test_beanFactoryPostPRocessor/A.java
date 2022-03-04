@@ -7,4 +7,7 @@ package com.yang.test_beanFactoryPostPRocessor;
  */
 public class A {
 
+	public A() {
+		System.out.println("------A Initializing----------");
+	}
 }

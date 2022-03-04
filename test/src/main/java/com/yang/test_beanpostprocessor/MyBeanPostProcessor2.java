@@ -13,14 +13,19 @@ public class MyBeanPostProcessor2 implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		System.out.println("before2");
-		System.out.println("beanName:" + beanName);
-		return null;
+		if (bean instanceof A) {
+			System.out.println("before2");
+			System.out.println("beanName:" + beanName);
+		}
+		return bean;
 	}
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		System.out.println("after2");
+		if (bean instanceof A)
+			System.out.println("after2");
 		return bean;
 	}
+
+
 }

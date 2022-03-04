@@ -5,11 +5,14 @@ import com.yang.test_beanpostprocessor.MyBeanPostProcessor2;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * @author yangpeng`
+ * 这个是测试 beanFactoryPostProcessor
+ * 通过测试可以看出BeanFactoryPostProcessor是执行在bean初始化之前的，
+ * 且BeanFactoryPostProcessor设置的order值越小,越先执行
+ * @author yangpeng
  * @version 1.0.0
  * @date 2021年03月24日
  */
-public class Test {
+public class TestBeanFactoryPostProcessor {
 
 	public static void main(String[] args) {
 //		long t1 = System.currentTimeMillis();

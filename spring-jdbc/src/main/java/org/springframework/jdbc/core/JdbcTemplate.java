@@ -643,6 +643,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 			logger.debug("Executing prepared SQL statement" + (sql != null ? " [" + sql + "]" : ""));
 		}
 
+		// 获取数据库链接
 		Connection con = DataSourceUtils.getConnection(obtainDataSource());
 		PreparedStatement ps = null;
 		try {
@@ -960,6 +961,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 		return updateCount(execute(psc, ps -> {
 			try {
 				if (pss != null) {
+					// 设置全部参数
 					pss.setValues(ps);
 				}
 				int rows = ps.executeUpdate();

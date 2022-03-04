@@ -42,6 +42,11 @@ import org.springframework.util.Assert;
  * Spring's JDBC operation objects and the JDBC {@link DataSourceTransactionManager}.
  * Can also be used directly in application code.
  *
+ * 提供用于从DataSource获取 JDBC Connections 的静态方法的 Helper 类。
+ * 包括对 Spring 管理的事务连接的特殊支持，例如由DataSourceTransactionManager或org.springframework.transaction.jta.JtaTransactionManager管理。
+ * 由 Spring 的org.springframework.jdbc.core.JdbcTemplate 、Spring 的 JDBC 操作对象和 JDBC DataSourceTransactionManager 。
+ * 也可以直接在应用程序代码中使用
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @see #getConnection
@@ -73,6 +78,12 @@ public abstract class DataSourceUtils {
 	 * @throws org.springframework.jdbc.CannotGetJdbcConnectionException
 	 * if the attempt to get a Connection failed
 	 * @see #releaseConnection
+	 *
+	 * 从给定的数据源获取连接。
+	 * 将 SQLExceptions 转换为未经检查的通用数据访问异常的 Spring 层次结构，简化调用代码并使抛出的任何异常更有意义。
+	 * 知道绑定到当前线程的相应连接，例如在使用DataSourceTransactionManager 。
+	 * 如果事务同步处于活动状态，例如在JTA事务中运行时，则将连接绑定到线程。
+	 *
 	 */
 	public static Connection getConnection(DataSource dataSource) throws CannotGetJdbcConnectionException {
 		try {

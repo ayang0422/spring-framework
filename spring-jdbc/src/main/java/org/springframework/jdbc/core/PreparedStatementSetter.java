@@ -35,6 +35,15 @@ import java.sql.SQLException;
  * SQLExceptions that may be thrown from operations they attempt.
  * The JdbcTemplate class will catch and handle SQLExceptions appropriately.
  *
+ *
+ JdbcTemplate类使用的通用回调接口。
+
+ 此接口在 JdbcTemplate 类提供的PreparedStatement上设置值，使用相同的 SQL 为批处理中的多个更新中的每一个更新。
+ 实现负责设置任何必要的参数。 已经提供了带有占位符的 SQL。
+
+ 这个接口比PreparedStatementCreator更容易使用：JdbcTemplate 会创建 PreparedStatement，回调只负责设置参数值。
+ 实现不需要关心自己与可能从他们试图操作抛出的SQLException。 JdbcTemplate 类将适当地捕获和处理 SQLExceptions
+ *
  * @author Rod Johnson
  * @since March 2, 2003
  * @see JdbcTemplate#update(String, PreparedStatementSetter)

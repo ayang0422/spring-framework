@@ -123,7 +123,8 @@ import org.springframework.lang.Nullable;
  * 		<li>{@code postProcessAfterInitialization} methods of BeanPostProcessors
  * </ol>
  *
- * <p>On shutdown of a bean factory, the following lifecycle methods apply:
+ * <p>On shutdown of a bean factory, the following lifecycle methods apply
+ * 		在关闭bean工厂,生命周期方法如下:
  * <ol>
 	 * <li>{@code postProcessBeforeDestruction} methods of DestructionAwareBeanPostProcessors
 	 * <li>DisposableBean's {@code destroy}

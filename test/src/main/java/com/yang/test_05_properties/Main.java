@@ -1,6 +1,5 @@
 package com.yang.test_05_properties;
 
-import com.yang.test_04_constructor.HelloBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

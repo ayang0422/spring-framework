@@ -208,6 +208,8 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	/**
 	 * Customize the internal bean factory used by this context.
 	 * Called for each {@link #refresh()} attempt.
+	 * 自定义内部bean工厂用于此上下文
+	 * 包含是否允许覆盖同名的不通的beanDefinition和是否允许bean之间的循环依赖
 	 * <p>The default implementation applies this context's
 	 * {@linkplain #setAllowBeanDefinitionOverriding "allowBeanDefinitionOverriding"}
 	 * and {@linkplain #setAllowCircularReferences "allowCircularReferences"} settings,

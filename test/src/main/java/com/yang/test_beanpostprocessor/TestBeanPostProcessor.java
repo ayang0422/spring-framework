@@ -9,7 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @version 1.0.0
  * @date 2021年03月24日
  */
-public class Test {
+public class TestBeanPostProcessor {
 
 	public static void main(String[] args) {
 //		long t1 = System.currentTimeMillis();
