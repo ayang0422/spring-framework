@@ -1,15 +1,17 @@
-package com.yang.test_beanpostprocessor;
+package com.yang.test_07_beanFactoryPostPRocessor;
 
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * @author yangpeng`
+ * 这个是测试 beanFactoryPostProcessor
+ * 通过测试可以看出BeanFactoryPostProcessor是执行在bean初始化之前的，
+ * 且BeanFactoryPostProcessor设置的order值越小,越先执行
+ * @author yangpeng
  * @version 1.0.0
  * @date 2021年03月24日
  */
-public class TestBeanPostProcessor {
+public class TestBeanFactoryPostProcessor {
 
 	public static void main(String[] args) {
 //		long t1 = System.currentTimeMillis();
@@ -21,8 +23,8 @@ public class TestBeanPostProcessor {
 	}
 
 	public static void main2() {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beanpostprocessor.xml");
-		MyBeanPostProcessor2 bean = context.getBean(MyBeanPostProcessor2.class);
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beanfatorypostprocessor.xml");
+		A bean = context.getBean(A.class);
 		System.out.println(context);
 		System.out.println(bean);
 	}

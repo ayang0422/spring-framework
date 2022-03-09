@@ -1,4 +1,4 @@
-package com.yang.test_beanFactoryPostPRocessor;
+package com.yang.test_07_beanFactoryPostPRocessor;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;

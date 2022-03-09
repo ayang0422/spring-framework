@@ -144,6 +144,7 @@ public class StaticWebApplicationContext extends StaticApplicationContext
 
 	/**
 	 * Register request/session scopes, a {@link ServletContextAwareProcessor}, etc.
+	 * 注册一个requst/session的范围
 	 */
 	@Override
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {

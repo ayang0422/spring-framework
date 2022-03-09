@@ -1,4 +1,4 @@
-package com.yang.test_beanFactoryPostPRocessor;
+package com.yang.test_07_beanFactoryPostPRocessor;
 
 /**
  * @author yangpeng

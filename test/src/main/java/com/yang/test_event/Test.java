@@ -1,7 +1,6 @@
 package com.yang.test_event;
 
 
-import com.yang.test_beanpostprocessor.MyBeanPostProcessor2;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

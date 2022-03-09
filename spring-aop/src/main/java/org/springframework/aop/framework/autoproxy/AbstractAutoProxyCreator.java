@@ -315,6 +315,9 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	public Object postProcessAfterInitialization(@Nullable Object bean, String beanName) {
 		if (bean != null) {
 			// 根据bean的name和class构建一个缓存key
+			// 获取当前bean的key，如果beanName不为空且不是FactoryBean，那么beanName为key，
+			// 如果如果beanName不为空且是FactoryBean，那么("&" + beanName)为key，
+			// 如果beanName为空的话，那么key就是bean对应的class
 			Object cacheKey = getCacheKey(bean.getClass(), beanName);
 			if (this.earlyProxyReferences.remove(cacheKey) != bean) {
 				return wrapIfNecessary(bean, beanName, cacheKey);
@@ -361,10 +364,10 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 			return bean;
 		}
 		// 排除不需要缓存的bean
-		if (Boolean.FALSE.equals(this.advisedBeans.get(cacheKey))) {
+  		if (Boolean.FALSE.equals(this.advisedBeans.get(cacheKey))) {
 			return bean;
 		}
-		// 给定的bean类是否代表一个基础设施类
+		// isInfrastructureClass(bean.getClass()) 给定的bean类是否代表一个基础设施类
 		// 基础设施类不应该代理，或者配置了指定bean不需要自动代理
 		if (isInfrastructureClass(bean.getClass()) || shouldSkip(bean.getClass(), beanName)) {
 			this.advisedBeans.put(cacheKey, Boolean.FALSE);
@@ -422,6 +425,11 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	 * a circular reference or if the existing target instance needs to be preserved.
 	 * This implementation returns {@code false} unless the bean name indicates an
 	 * "original instance" according to {@code AutowireCapableBeanFactory} conventions.
+	 *
+	 * 如果给定的 bean 不应该被这个后处理器考虑自动代理，子类应该重写这个方法以返回 {@code true}。
+	 * <p>有时我们需要能够避免这种情况发生，例如如果它会导致循环引用或者是否需要保留现有的目标实例。
+	 * 此实现返回 {@code false} 除非 bean 名称根据 {@code AutowireCapableBeanFactory} 约定指示“原始实例”。
+	 *
 	 * @param beanClass the class of the bean
 	 * @param beanName the name of the bean
 	 * @return whether to skip the given bean

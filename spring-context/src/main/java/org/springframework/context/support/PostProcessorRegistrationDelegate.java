@@ -45,6 +45,7 @@ import org.springframework.lang.Nullable;
 
 /**
  * Delegate for AbstractApplicationContext's post-processor handling.
+ * AbstractApplicationContext 的后处理器处理的委托
  *
  * @author Juergen Hoeller
  * @author Sam Brannen
@@ -66,6 +67,11 @@ final class PostProcessorRegistrationDelegate {
 		// and Ordered processors. Specifically, we must NOT cause processors to be
 		// instantiated (via getBean() invocations) or registered in the ApplicationContext
 		// in the wrong order.
+
+		// 警告：虽然看起来可以轻松地重构此方法的主体以避免使用多个循环和多个列表，
+		// 但使用多个列表和多次传递处理器名称是有意的。
+		// 我们必须确保我们遵守 PriorityOrdered 和 Ordered 处理器的合同。
+		// 具体来说，我们不能导致处理器被实例化（通过 getBean() 调用）或以错误的顺序在 ApplicationContext 中注册。
 		//
 		// Before submitting a pull request (PR) to change this method, please review the
 		// list of all declined PRs involving changes to PostProcessorRegistrationDelegate
@@ -73,6 +79,9 @@ final class PostProcessorRegistrationDelegate {
 		// https://github.com/spring-projects/spring-framework/issues?q=PostProcessorRegistrationDelegate+is%3Aclosed+label%3A%22status%3A+declined%22
 
 		// Invoke BeanDefinitionRegistryPostProcessors first, if any.
+		// 首先执行BeanDefinitionRegistryPostProcessors
+
+		// 已经执行过的集合去重
 		Set<String> processedBeans = new HashSet<>();
 
 		// 对BeanDefinitionRegistry类型的处理
@@ -84,6 +93,7 @@ final class PostProcessorRegistrationDelegate {
 			List<BeanDefinitionRegistryPostProcessor> registryProcessors = new ArrayList<>();
 
 			// 硬编码注册的后置处理器
+			// 处理自定义的 beanFactoryPostProcessors（指调用 context.addBeanFactoryPostProcessor() 方法），一般这里都没有
 			for (BeanFactoryPostProcessor postProcessor : beanFactoryPostProcessors) {
 				if (postProcessor instanceof BeanDefinitionRegistryPostProcessor) {
 					// 对于BeanDefinitionRegistryPostProcessor类型
@@ -107,19 +117,26 @@ final class PostProcessorRegistrationDelegate {
 			// 不要在此处初始化 FactoryBeans：
 			// 我们需要保留所有常规 bean 未初始化，以便让 bean 工厂后处理器应用于它们！
 			// 将实现 PriorityOrdered、Ordered 和其余部分的 BeanDefinitionRegistryPostProcessor 分开。
+
+			// 表示当前要处理的BeanDefinitionRegistryPostProcessor集合
 			List<BeanDefinitionRegistryPostProcessor> currentRegistryProcessors = new ArrayList<>();
 
 			// First, invoke the BeanDefinitionRegistryPostProcessors that implement PriorityOrdered.
 			// 首先，调用实现 PriorityOrdered 的 BeanDefinitionRegistryPostProcessors。
+			// 从容器中找到实现了PriorityOrdered的BeanDefinitionRegistryPostProcessor
 			String[] postProcessorNames =
 					beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
 			for (String ppName : postProcessorNames) {
 				if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
+					// 添加到当前要处理的BeanDefinitionRegistryPostProcessor集合
 					currentRegistryProcessors.add(beanFactory.getBean(ppName, BeanDefinitionRegistryPostProcessor.class));
+					// 添加到已处理过的set集合中
 					processedBeans.add(ppName);
 				}
 			}
+			// 排序
 			sortPostProcessors(currentRegistryProcessors, beanFactory);
+			// 添加到BeanDefinitionRegistryPostProcessor集合中
 			registryProcessors.addAll(currentRegistryProcessors);
 			// 在BeanFactoryPostProcessor的基础方法上还有自己定义的方法postProcessBeanDefinitionRegistry 需要先行调用
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry, beanFactory.getApplicationStartup());
@@ -241,7 +258,7 @@ final class PostProcessorRegistrationDelegate {
 		// to ensure that your proposal does not result in a breaking change:
 		// https://github.com/spring-projects/spring-framework/issues?q=PostProcessorRegistrationDelegate+is%3Aclosed+label%3A%22status%3A+declined%22
 
-		/**
+		/*
 		 * 警告：虽然看起来这个方法的主体可以很容易地重构以避免使用多个循环和多个列表，但使用多个列表和多次遍历处理器名称是有意的。
 		 * 我们必须确保遵守 PriorityOrdered 和 Ordered 处理器的合同。
 		 * 具体来说，我们不能导致处理器被实例化（通过 getBean() 调用）或以错误的顺序在 ApplicationContext 中注册。

@@ -5,12 +5,12 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	   						http://www.zheteng.icu/schema/user http://www.zheteng.icu/schema/user.xsd">
 
-	<bean id="a" class="com.yang.test_cycle_dependence.A">
-		<property name="b" ref="b"></property>
+	<bean id="a1" class="com.yang.test_cycle_dependence.A1">
+		<property name="b1" ref="b1"></property>
 	</bean>
 
-	<bean id="b" class="com.yang.test_cycle_dependence.B">
-		<property name="a" ref="a"></property>
+	<bean id="b1" class="com.yang.test_cycle_dependence.B1">
+		<property name="a1" ref="a1"></property>
 	</bean>
 
 </beans>

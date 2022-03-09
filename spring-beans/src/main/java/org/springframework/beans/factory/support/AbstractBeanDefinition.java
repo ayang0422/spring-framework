@@ -762,6 +762,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Return a callback for creating an instance of the bean, if any.
+	 * 返回用于创建 bean 实例的回调（如果有）
 	 * @since 5.0
 	 */
 	@Nullable
@@ -842,6 +843,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 
 	/**
 	 * Return a factory method, if any.
+	 * 如果有的话，返回一个工厂方法
 	 */
 	@Override
 	@Nullable
@@ -1128,6 +1130,7 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	/**
 	 * Validate and prepare the method overrides defined for this bean.
 	 * Checks for existence of a method with the specified name.
+	 * 验证并准备为此 bean 定义的方法覆盖。检查具有指定名称的方法是否存在。
 	 * @throws BeanDefinitionValidationException in case of validation failure
 	 */
 	public void prepareMethodOverrides() throws BeanDefinitionValidationException {

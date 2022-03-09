@@ -10,7 +10,7 @@
 		<!-- 加载配置文件 -->
 		<context:property-placeholder location="classpath:placehold.properties"/>
 
-		<bean id="placehold" class="com.yang.test_placehold.PlaceholdClass">
+		<bean id="placehold" class="com.yang.test_placehold.PlaceholderTest">
 			<property name="name" value="${place.name}"></property>
 		</bean>
 

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
  * @version 1.0.0
  * @date 2021年06月23日
  */
-public class PlaceholdClass implements BeanPostProcessor {
+public class PlaceholderTest implements BeanPostProcessor {
 
 	private String name;
 

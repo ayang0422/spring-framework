@@ -1,4 +1,4 @@
-package com.yang.test_beanpostprocessor;
+package com.yang.test_08_beanpostprocessor;
 
 import javax.annotation.PostConstruct;
 

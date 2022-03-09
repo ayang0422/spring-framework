@@ -69,7 +69,7 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 	}
 
 	/**
-	 * Return the AopProxyFactory that this ProxyConfig uses.
+	 * Return the AopProxyFactory that this ProxyConfig uses. 返回此 ProxyConfig 使用的 AopProxyFactory。
 	 */
 	public AopProxyFactory getAopProxyFactory() {
 		return this.aopProxyFactory;

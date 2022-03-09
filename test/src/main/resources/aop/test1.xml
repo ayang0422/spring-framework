@@ -2,8 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xmlns:myname="http://www.zheteng.icu/schema/user" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tool="http://www.springframework.org/schema/tool"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	   						http://www.zheteng.icu/schema/user http://www.zheteng.icu/schema/user.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+	   						http://www.zheteng.icu/schema/user http://www.zheteng.icu/schema/user.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tool http://www.springframework.org/schema/tool/spring-tool.xsd">
 
 	<aop:aspectj-autoproxy/>
 

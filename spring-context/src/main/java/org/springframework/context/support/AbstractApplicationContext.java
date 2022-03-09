@@ -586,6 +586,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
 				// 调用在上下文中注册为 bean 的工厂处理器。
+				// 调用实现了BeanFactoryPostProcessor的bean
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
@@ -969,7 +970,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		// at this point, primarily for resolution in annotation attribute values.
 		// 如果之前没有注册任何 BeanFactoryPostProcessor（例如 PropertySourcesPlaceholderConfigurer bean），
 		// 则注册一个默认的嵌入值解析器：此时，主要用于注释属性值的解析
-		// 如果没有任何的BeanFactoryPostProcessor注册，那么就注册一个PlaceholderConfigurerSupport
+		// 确定是否已向此 bean 工厂注册了嵌入值解析器，如果没有，那么就注册一个PlaceholderConfigurerSupport
 		if (!beanFactory.hasEmbeddedValueResolver()) {
 			beanFactory.addEmbeddedValueResolver(strVal -> getEnvironment().resolvePlaceholders(strVal));
 		}

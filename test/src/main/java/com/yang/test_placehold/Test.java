@@ -13,6 +13,6 @@ public class Test {
 	public static void main(String[] args) {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"placehold.xml");
-		System.out.println(context.getBean(PlaceholdClass.class).getName());
+		System.out.println(context.getBean(PlaceholderTest.class).getName());
 	}
 }

@@ -103,7 +103,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 						}
 						// We must be careful not to instantiate beans eagerly as in this case they
 						// would be cached by the Spring container but would not have been weaved.
-						// 我们必须小心不要急切地实例化 bean，因为在这种情况下它们会被 Spring 容器缓存但不会被编织。
+						// 我们必须小心不要急切地实例化 bean，因为在这种情况下它们会被 Spring 容器缓存但不会被织入。
 						Class<?> beanType = this.beanFactory.getType(beanName, false);
 						if (beanType == null) {
 							continue;
@@ -163,6 +163,7 @@ public class BeanFactoryAspectJAdvisorsBuilder {
 
 	/**
 	 * Return whether the aspect bean with the given name is eligible.
+	 * 返回具有给定名称的切面 bean 是否符合条件
 	 * @param beanName the name of the aspect bean
 	 * @return whether the bean is eligible
 	 */

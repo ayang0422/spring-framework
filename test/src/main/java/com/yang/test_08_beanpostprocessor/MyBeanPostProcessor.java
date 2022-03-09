@@ -1,8 +1,7 @@
-package com.yang.test_beanpostprocessor;
+package com.yang.test_08_beanpostprocessor;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 /**

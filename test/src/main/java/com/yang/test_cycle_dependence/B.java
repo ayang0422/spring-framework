@@ -1,4 +1,4 @@
-package com.yang.test;
+package com.yang.test_cycle_dependence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

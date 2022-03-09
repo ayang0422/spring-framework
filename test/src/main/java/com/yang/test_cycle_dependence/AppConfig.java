@@ -1,4 +1,4 @@
-package com.yang.test;
+package com.yang.test_cycle_dependence;
 
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.ComponentScan;

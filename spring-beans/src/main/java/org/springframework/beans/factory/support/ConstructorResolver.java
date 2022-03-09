@@ -114,9 +114,12 @@ class ConstructorResolver {
 	 * "autowire constructor" (with constructor arguments by type) behavior.
 	 * Also applied if explicit constructor argument values are specified,
 	 * matching all remaining arguments with beans from the bean factory.
+	 * “自动装配构造函数”（按类型使用构造函数参数）行为。
+	 * 如果指定了显式构造函数参数值，也适用，将所有剩余参数与 bean 工厂中的 bean 匹配。
 	 * <p>This corresponds to constructor injection: In this mode, a Spring
 	 * bean factory is able to host components that expect constructor-based
 	 * dependency resolution.
+	 * 这对应于构造函数注入：在这种模式下，Spring bean 工厂能够托管期望基于构造函数的依赖解析的组件。
 	 * @param beanName the name of the bean
 	 * @param mbd the merged bean definition for the bean
 	 * @param chosenCtors chosen candidate constructors (or {@code null} if none)

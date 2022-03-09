@@ -6,11 +6,11 @@
 
 
 	<beans>
-		<bean class="com.yang.test_beanpostprocessor.MyBeanPostProcessor2"/>
-		<bean class="com.yang.test_beanpostprocessor.A" init-method="doInit">
+		<bean class="com.yang.test_08_beanpostprocessor.MyBeanPostProcessor2"/>
+		<bean class="com.yang.test_08_beanpostprocessor.A" init-method="doInit">
 			<property name="name" value="123"/>
 		</bean>
-		<bean class="com.yang.test_beanpostprocessor.B"/>
+		<bean class="com.yang.test_08_beanpostprocessor.B"/>
 	</beans>
 
 </beans>

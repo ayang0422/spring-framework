@@ -6,10 +6,11 @@
 
 
 	<beans>
-		<bean class="com.yang.test_beanFactoryPostPRocessor.MyBeanFactoryPostProcessor"/>
-		<bean class="com.yang.test_beanFactoryPostPRocessor.MyBeanFactoryPostProcessor2"/>
-		<bean class="com.yang.test_beanFactoryPostPRocessor.A"/>
-		<bean class="com.yang.test_beanFactoryPostPRocessor.B"/>
+		<bean class="com.yang.test_07_beanFactoryPostPRocessor.MyBeanFactoryPostProcessor"/>
+		<bean class="com.yang.test_07_beanFactoryPostPRocessor.MyBeanFactoryPostProcessor2"/>
+		<bean class="com.yang.test_07_beanFactoryPostPRocessor.MyBeanDefinitionRegistryPostProcessor"/>
+		<bean class="com.yang.test_07_beanFactoryPostPRocessor.A"/>
+		<bean class="com.yang.test_07_beanFactoryPostPRocessor.B"/>
 	</beans>
 
 </beans>
