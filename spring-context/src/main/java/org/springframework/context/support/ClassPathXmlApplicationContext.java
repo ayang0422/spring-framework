@@ -140,6 +140,7 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 
 		// 父类的初始化
 		super(parent);
+		// 为上下文设置配置文件路径(没有读取配置)，设置了环境environment
 		setConfigLocations(configLocations);
 		if (refresh) {
 			refresh();

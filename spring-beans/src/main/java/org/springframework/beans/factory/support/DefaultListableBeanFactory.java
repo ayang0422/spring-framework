@@ -90,19 +90,29 @@ import org.springframework.util.StringUtils;
  * and {@link BeanDefinitionRegistry} interfaces: a full-fledged bean factory
  * based on bean definition metadata, extensible through post-processors.
  *
+ * 基于bean定义元数据的成熟bean工厂，可通过后处理器进行扩展。
+ *
  * <p>Typical usage is registering all bean definitions first (possibly read
  * from a bean definition file), before accessing beans. Bean lookup by name
  * is therefore an inexpensive operation in a local bean definition table,
  * operating on pre-resolved bean definition metadata objects.
  *
+ * <p> 典型的用法是在访问bean之前先注册所有bean定义 (可能从bean定义文件中读取)。
+ * 因此，按名称查找Bean是本地bean定义表中的一种廉价操作，它对预先解析的bean定义元数据对象进行操作。
+ *
  * <p>Note that readers for specific bean definition formats are typically
  * implemented separately rather than as bean factory subclasses: see for example
  * {@link org.springframework.beans.factory.xml.XmlBeanDefinitionReader}.
+ *
+ * 请注意，特定bean定义格式的阅读器通常是单独实现的，而不是作为bean工厂子类实现的: 例如，请参见 XmlBeanDefinitionReader
  *
  * <p>For an alternative implementation of the
  * {@link org.springframework.beans.factory.ListableBeanFactory} interface,
  * have a look at {@link StaticListableBeanFactory}, which manages existing
  * bean instances rather than creating new ones based on bean definitions.
+ *
+ * 有关 {@link org.springframework.beans.factory.ListableBeanFactory}  接口的替代实现，
+ * 请查看 {@link StaticListableBeanFactory}，它管理现有的bean实例，而不是基于bean定义创建新的bean实例。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
@@ -988,6 +998,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		// Trigger post-initialization callback for all applicable beans...
+		// 为所有适用的 bean 触发初始化后回调
 		for (String beanName : beanNames) {
 			Object singletonInstance = getSingleton(beanName);
 			if (singletonInstance instanceof SmartInitializingSingleton) {

@@ -129,6 +129,10 @@ public class AnnotatedBeanDefinitionReader {
 	 * Register one or more component classes to be processed.
 	 * <p>Calls to {@code register} are idempotent; adding the same
 	 * component class more than once has no additional effect.
+	 *
+	 * 注册一个或多个要处理的组件类。
+	 * <p> 对 {@code register} 的调用是幂等的; 多次添加相同的组件类没有其他效果。
+	 *
 	 * @param componentClasses one or more component classes,
 	 * e.g. {@link Configuration @Configuration} classes
 	 */
@@ -141,6 +145,8 @@ public class AnnotatedBeanDefinitionReader {
 	/**
 	 * Register a bean from the given bean class, deriving its metadata from
 	 * class-declared annotations.
+	 *
+	 * 从给定的bean类中注册一个bean，从类声明的注释中得出其元数据。
 	 * @param beanClass the class of the bean
 	 */
 	public void registerBean(Class<?> beanClass) {
@@ -236,6 +242,7 @@ public class AnnotatedBeanDefinitionReader {
 	/**
 	 * Register a bean from the given bean class, deriving its metadata from
 	 * class-declared annotations.
+	 * 从给定的bean类中注册一个bean，从类声明的注释中导出其元数据
 	 * @param beanClass the class of the bean
 	 * @param name an explicit name for the bean
 	 * @param qualifiers specific qualifier annotations to consider, if any,

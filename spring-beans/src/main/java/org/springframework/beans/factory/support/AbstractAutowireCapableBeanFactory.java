@@ -1823,17 +1823,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	protected Object initializeBean(String beanName, Object bean, @Nullable RootBeanDefinition mbd) {
 		if (System.getSecurityManager() != null) {
 			AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
+				// 执行三个 aware BeanNameAware、BeanClassLoaderAware、BeanFactoryAware
 				invokeAwareMethods(beanName, bean);
 				return null;
 			}, getAccessControlContext());
 		}
 		else {
+			// 执行三个 aware BeanNameAware、BeanClassLoaderAware、BeanFactoryAware
 			invokeAwareMethods(beanName, bean);
 		}
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
 			// 执行beanPostProcessor#postProcessBeforeInitialization()
+			// 这里执行了几个aware()
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
@@ -1857,7 +1860,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	}
 
 	/**
-	 * 执行织入方法
+	 * 执行三种感知器方法
+	 * BeanNameAware、BeanClassLoaderAware、BeanFactoryAware
 	 *
 	 * 查看bean有没有实现Aware和BeanFactoryAware接口，如果实现了，就设置对应的属性到bean中
 	 * @param beanName
@@ -1885,6 +1889,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 	 * and a chance to know about its owning bean factory (this object).
 	 * This means checking whether the bean implements InitializingBean or defines
 	 * a custom init method, and invoking the necessary callback(s) if it does.
+	 * 在属性注入完成以后给bean一个反应的机会，
+	 * 检查是否实现了InitializingBean接口或者有自定义初始化方法，
+	 * 如果有的话，就执行初始化方法
 	 * @param beanName the bean name in the factory (for debugging purposes)
 	 * @param bean the new bean instance we may need to initialize
 	 * @param mbd the merged bean definition that the bean was created with

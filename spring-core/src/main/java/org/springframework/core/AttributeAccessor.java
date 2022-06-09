@@ -25,6 +25,8 @@ import org.springframework.util.Assert;
  * Interface defining a generic contract for attaching and accessing metadata
  * to/from arbitrary objects.
  *
+ * 定义用于将元数据附加到任意对象和从任意对象访问元数据的通用合同的接口。
+ *
  * @author Rob Harrop
  * @author Sam Brannen
  * @since 2.0

@@ -104,6 +104,9 @@ public abstract class DataSourceUtils {
 	 * when using {@link DataSourceTransactionManager}. Will bind a Connection to the thread
 	 * if transaction synchronization is active (e.g. if in a JTA transaction).
 	 * <p>Directly accessed by {@link TransactionAwareDataSourceProxy}.
+	 * 从给定的数据源获取连接。
+	 * 将SQLExceptions转换为未检查的通用数据访问异常的Spring层次结构，从而简化了调用代码，并使抛出的任何异常都更有意义。
+	 * 知道绑定到当前线程的相应连接，例如在使用数据源事务管理器。如果事务同步处于活动状态，将绑定到线程的连接，例如在JTA交易)。
 	 * @param dataSource the DataSource to obtain Connections from
 	 * @return a JDBC Connection from the given DataSource
 	 * @throws SQLException if thrown by JDBC methods
@@ -126,10 +129,13 @@ public abstract class DataSourceUtils {
 		logger.debug("Fetching JDBC Connection from DataSource");
 		Connection con = fetchConnection(dataSource);
 
+		// 当前线程有事务同步处于活动状态，例如在JTA事务中运行时，则将连接绑定到线程。
 		if (TransactionSynchronizationManager.isSynchronizationActive()) {
 			try {
 				// Use same Connection for further JDBC actions within the transaction.
 				// Thread-bound object will get removed by synchronization at transaction completion.
+				// 在事务中使用相同的连接进行进一步的JDBC操作。
+				// 线程绑定的对象将在事务完成时被同步删除。
 				ConnectionHolder holderToUse = conHolder;
 				if (holderToUse == null) {
 					holderToUse = new ConnectionHolder(con);
@@ -137,6 +143,7 @@ public abstract class DataSourceUtils {
 				else {
 					holderToUse.setConnection(con);
 				}
+				// 记录数据库连接
 				holderToUse.requested();
 				TransactionSynchronizationManager.registerSynchronization(
 						new ConnectionSynchronization(holderToUse, dataSource));
@@ -358,6 +365,7 @@ public abstract class DataSourceUtils {
 	/**
 	 * Close the given Connection, obtained from the given DataSource,
 	 * if it is not managed externally (that is, not bound to the thread).
+	 * 如果未从外部管理 (即未绑定到线程)，则关闭从给定数据源获得的给定连接。
 	 * @param con the Connection to close if necessary
 	 * (if this is {@code null}, the call will be ignored)
 	 * @param dataSource the DataSource that the Connection was obtained from
@@ -382,6 +390,9 @@ public abstract class DataSourceUtils {
 	 * <p>Directly accessed by {@link TransactionAwareDataSourceProxy}.
 	 * @param con the Connection to close if necessary
 	 * (if this is {@code null}, the call will be ignored)
+	 * 实际关闭从给定的数据源获得的连接。
+	 * 与{@link #releaseConnection} 相同,但抛出原始的SQLException
+	 *直接由事务处理 {@link TransactionAwareDataSourceProxy}.
 	 * @param dataSource the DataSource that the Connection was obtained from
 	 * (may be {@code null})
 	 * @throws SQLException if thrown by JDBC methods
@@ -395,6 +406,7 @@ public abstract class DataSourceUtils {
 			ConnectionHolder conHolder = (ConnectionHolder) TransactionSynchronizationManager.getResource(dataSource);
 			if (conHolder != null && connectionEquals(conHolder, con)) {
 				// It's the transactional Connection: Don't close it.
+				// 这是事务性连接：不要关闭它。
 				conHolder.released();
 				return;
 			}

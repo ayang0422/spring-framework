@@ -22,7 +22,11 @@ import java.io.InputStream;
 /**
  * Simple interface for objects that are sources for an {@link InputStream}.
  *
+ * InputStream 来源对象的简单接口
+ *
  * <p>This is the base interface for Spring's more extensive {@link Resource} interface.
+ *
+ * 这是Spring更广泛的 {@link Resource} 接口的基本接口。
  *
  * <p>For single-use streams, {@link InputStreamResource} can be used for any
  * given {@code InputStream}. Spring's {@link ByteArrayResource} or any

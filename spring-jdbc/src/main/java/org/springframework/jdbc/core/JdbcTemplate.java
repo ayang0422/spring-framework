@@ -117,6 +117,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 	/**
 	 * If this variable is set to a non-negative value, it will be used for setting the
 	 * fetchSize property on statements used for query processing.
+	 * 如果将此变量设置为非负值，则将用于在用于查询处理的语句上设置fetchSize属性
 	 */
 	private int fetchSize = -1;
 
@@ -643,12 +644,14 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 			logger.debug("Executing prepared SQL statement" + (sql != null ? " [" + sql + "]" : ""));
 		}
 
-		// 获取数据库链接
+		// 获取数据库链接 考虑了诸多情况
 		Connection con = DataSourceUtils.getConnection(obtainDataSource());
 		PreparedStatement ps = null;
 		try {
 			ps = psc.createPreparedStatement(con);
+			// 应用用户设定的输入参数
 			applyStatementSettings(ps);
+			// 调用用户提供的回调对象，处理通用方法外的个性化处理
 			T result = action.doInPreparedStatement(ps);
 			handleWarnings(ps);
 			return result;
@@ -656,6 +659,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 		catch (SQLException ex) {
 			// Release Connection early, to avoid potential connection pool deadlock
 			// in the case when the exception translator hasn't been initialized yet.
+			// 尽早释放数据库链接 以避免在异常转换器尚未初始化的情况下潜在的连接池死锁。
 			if (psc instanceof ParameterDisposer) {
 				((ParameterDisposer) psc).cleanupParameters();
 			}
@@ -663,6 +667,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 			psc = null;
 			JdbcUtils.closeStatement(ps);
 			ps = null;
+			// 资源释放
 			DataSourceUtils.releaseConnection(con, getDataSource());
 			con = null;
 			throw translateException("PreparedStatementCallback", sql, ex);
@@ -961,7 +966,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 		return updateCount(execute(psc, ps -> {
 			try {
 				if (pss != null) {
-					// 设置全部参数
+					// 设置PreparedStatement全部参数
 					pss.setValues(ps);
 				}
 				int rows = ps.executeUpdate();
@@ -1453,6 +1458,7 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 	/**
 	 * Prepare the given JDBC Statement (or PreparedStatement or CallableStatement),
 	 * applying statement settings such as fetch size, max rows, and query timeout.
+	 * 准备给定的JDBC语句 (或PreparedStatement或callalestatement)，应用语句设置，如fetch size、max rows和查询超时
 	 * @param stmt the JDBC Statement to prepare
 	 * @throws SQLException if thrown by JDBC API
 	 * @see #setFetchSize
@@ -1462,10 +1468,12 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 	 */
 	protected void applyStatementSettings(Statement stmt) throws SQLException {
 		int fetchSize = getFetchSize();
+		// 设置查询结果集的fetch size，减少网络交互次数
 		if (fetchSize != -1) {
 			stmt.setFetchSize(fetchSize);
 		}
 		int maxRows = getMaxRows();
+		// ResultSet的最大行数
 		if (maxRows != -1) {
 			stmt.setMaxRows(maxRows);
 		}
@@ -1476,6 +1484,11 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 	 * Create a new arg-based PreparedStatementSetter using the args passed in.
 	 * <p>By default, we'll create an {@link ArgumentPreparedStatementSetter}.
 	 * This method allows for the creation to be overridden by subclasses.
+	 *
+	 * 使用传入的args创建新的基于arg的PreparedStatementSetter
+	 * 默认情况下，我们将创建一个ArgumentPreparedStatementSetter参数准备报表设置器。
+	 * 此方法允许创建被子类覆盖。
+	 * 使用传入的args创建新的基于arg的PreparedStatementSetter
 	 * @param args object array with arguments
 	 * @return the new PreparedStatementSetter to use
 	 */
@@ -1498,11 +1511,13 @@ public class JdbcTemplate extends JdbcAccessor implements JdbcOperations {
 	/**
 	 * Throw an SQLWarningException if we're not ignoring warnings,
 	 * otherwise log the warnings at debug level.
+	 * 如果我们不忽略警告，则抛出SQLWarningException，否则将警告记录在调试级别
 	 * @param stmt the current JDBC statement
 	 * @throws SQLWarningException if not ignoring warnings
 	 * @see org.springframework.jdbc.SQLWarningException
 	 */
 	protected void handleWarnings(Statement stmt) throws SQLException {
+		// 如果设置忽略警告，则只尝试记录日志
 		if (isIgnoreWarnings()) {
 			if (logger.isDebugEnabled()) {
 				SQLWarning warningToLog = stmt.getWarnings();

@@ -54,6 +54,7 @@ public interface PreparedStatementSetter {
 
 	/**
 	 * Set parameter values on the given PreparedStatement.
+	 * 在给定的PreparedStatement上设置参数值。
 	 * @param ps the PreparedStatement to invoke setter methods on
 	 * @throws SQLException if an SQLException is encountered
 	 * (i.e. there is no need to catch SQLException)

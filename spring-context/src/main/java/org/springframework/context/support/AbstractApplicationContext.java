@@ -331,6 +331,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Return the {@code Environment} for this application context in configurable
 	 * form, allowing for further customization.
 	 * <p>If none specified, a default environment will be initialized via
+	 *
+	 * 以可配置的形式返回此应用程序上下文的 {@code Environment}，允许进一步自定义。
+	 * <p>如果未指定，默认环境将通过以下方式初始化
 	 * {@link #createEnvironment()}.
 	 */
 	@Override
@@ -560,7 +563,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
-			// 获取一个应用默认的启动器
+			// 获取一个应用默认的启动步骤
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
 			// Prepare this context for refreshing.
@@ -648,6 +651,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Prepare this context for refreshing, setting its startup date and
 	 * active flag as well as performing any initialization of property sources.
+	 * 准备此上下文以进行刷新、设置其启动日期和活动标志以及执行任何属性源的初始化。
 	 */
 	protected void prepareRefresh() {
 		// Switch to active.
@@ -665,11 +669,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// INITIALIZE ANY PLACEHOLDER PROPERTY SOURCES IN THE CONTEXT ENVIRONMENT.
-		// 初始化上下文中占用符
+		// 在上下文环境中初始化任何占位符属性源。
 		initPropertySources();
 
 		// Validate that all properties marked as required are resolvable:
 		// see ConfigurablePropertyResolver#setRequiredProperties
+		// 验证所有标记为必需的属性都是可解析的
 		// 获取环境
 		getEnvironment().validateRequiredProperties();
 

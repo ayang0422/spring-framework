@@ -27,9 +27,13 @@ import org.springframework.lang.Nullable;
  * constructor argument values, and further information supplied by
  * concrete implementations.
  *
+ * BeanDefinition 描述了一个 bean 实例,包含了属性值,构造起参数值和具体实现提供的更多信息
+ *
  * <p>This is just a minimal interface: The main intention is to allow a
  * {@link BeanFactoryPostProcessor} to introspect and modify property values
  * and other bean metadata.
+ *
+ * 这只是一个最小的接口: 主要目的是允许 {@link BeanFactoryPostProcessor} 进行内省和修改属性值和其他bean元数据。
  *
  * @author Juergen Hoeller
  * @author Rob Harrop
@@ -60,6 +64,8 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	/**
 	 * Role hint indicating that a {@code BeanDefinition} is a major part
 	 * of the application. Typically corresponds to a user-defined bean.
+	 *
+	 * 角色提示指示 BeanDefinition 是应用的主要的部分。 通常用于用户定义的bean
 	 */
 	int ROLE_APPLICATION = 0;
 

@@ -25,6 +25,11 @@ package org.springframework.beans.factory;
  * In that sense, it is an alternative to {@link InitializingBean} which gets
  * triggered right at the end of a bean's local construction phase.
  *
+ * 回调接口在 {@link BeanFactory} 引导期间的单例预实例化阶段结束时触发。
+ * 这个接口可以由单例 bean 实现，以便在常规单例实例化算法之后执行一些初始化，
+ * 避免意外早期初始化的副作用（例如来自 {@link ListableBeanFactorygetBeansOfType} 调用）。
+ * 从这个意义上说，它是 {@link InitializingBean} 的替代方案，它在 bean 的本地构造阶段结束时被触发。
+ *
  * <p>This callback variant is somewhat similar to
  * {@link org.springframework.context.event.ContextRefreshedEvent} but doesn't
  * require an implementation of {@link org.springframework.context.ApplicationListener},

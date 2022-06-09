@@ -106,7 +106,7 @@ import org.springframework.lang.Nullable;
  * 		事件发布
  * 		(only applicable when running in an application context)
  * 		<li>MessageSourceAware's {@code setMessageSource}
- * 		信息源
+ * 		信息源(国际化)
  * 		(only applicable when running in an application context)
  * 		<li>ApplicationContextAware's {@code setApplicationContext}
  * 		应用上下文

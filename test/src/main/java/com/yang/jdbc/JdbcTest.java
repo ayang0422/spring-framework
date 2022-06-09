@@ -23,6 +23,8 @@ public class JdbcTest {
 		System.out.println("insert rs : " + insert);
 
 		List<User> users = bean.getUsers();
-		System.out.println(users.size());
+		for (User u : users) {
+			System.out.println(u);
+		}
 	}
 }

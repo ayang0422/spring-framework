@@ -7,6 +7,7 @@
 
 	<beans>
 		<bean class="com.yang.test_event.TestListener"/>
+		<bean class="com.yang.test_event.MyContextStartedListener"/>
 	</beans>
 
 </beans>

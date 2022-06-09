@@ -36,6 +36,12 @@ import org.springframework.lang.Nullable;
  * always set parameter values themselves, so that PreparedStatementCreator
  * capability is not needed either.
  *
+ * 用于在PreparedStatement上操作的代码的通用回调接口。
+ * 允许对单个PreparedStatement执行任意数量的操作，例如单个执行更新呼叫或重复执行更新具有不同参数的调用。
+ * 由JdbcTemplate内部使用，但对应用程序代码也很有用。
+ * 请注意，传入的PreparedStatement可以由框架或自定义PreparedStatementCreator创建。
+ * 但是，后者几乎没有必要，因为大多数自定义回调操作将执行更新，在这种情况下，标准PreparedStatement很好。
+ * 自定义操作将始终自己设置参数值，因此也不需要PreparedStatementCreator功能。
  * @author Juergen Hoeller
  * @since 16.03.2004
  * @param <T> the result type

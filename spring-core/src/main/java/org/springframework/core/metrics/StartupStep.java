@@ -23,6 +23,8 @@ import org.springframework.lang.Nullable;
 /**
  * Step recording metrics about a particular phase or action happening during the {@link ApplicationStartup}.
  *
+ * 步骤记录有关在 {@link ApplicationStartup} 期间发生的特定阶段或操作的指标。
+ *
  * <p>The lifecycle of a {@code StartupStep} goes as follows:
  * <ol>
  * <li>the step is created and starts by calling {@link ApplicationStartup#start(String) the application startup}

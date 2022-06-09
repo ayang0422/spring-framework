@@ -56,6 +56,8 @@ import org.springframework.util.StringUtils;
  * that wraps each eligible bean with an AOP proxy, delegating to specified interceptors
  * before invoking the bean itself.
  *
+ * BeanPostProcessor实现，它使用 AOP 代理包装每个符合条件的 bean，在调用 bean 本身之前委托给指定的拦截器。
+ *
  * <p>This class distinguishes between "common" interceptors: shared for all proxies it
  * creates, and "specific" interceptors: unique per bean instance. There need not be any
  * common interceptors. If there are, they are set using the interceptorNames property.
@@ -359,7 +361,7 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 	 * @return a proxy wrapping the bean, or the raw bean instance as-is
 	 */
 	protected Object wrapIfNecessary(Object bean, String beanName, Object cacheKey) {
-		// 如果已处理过
+		// 如果已处理过 判断是否在bean初始化之前执行过
 		if (StringUtils.hasLength(beanName) && this.targetSourcedBeans.contains(beanName)) {
 			return bean;
 		}
@@ -375,7 +377,6 @@ public abstract class AbstractAutoProxyCreator extends ProxyProcessorSupport
 		}
 
 		// Create proxy if we have advice.
-
 		// 如果存在增强方法，则创建代理，并返回生成的代理bean
 		Object[] specificInterceptors = getAdvicesAndAdvisorsForBean(bean.getClass(), beanName, null);
 		if (specificInterceptors != DO_NOT_PROXY) {

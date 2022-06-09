@@ -71,7 +71,7 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 
 
 	/**
-	 * 获取增强方法
+	 * 返回给定的beanName是否有可以代理的通知，如果有，返回通知的集合，如果没有返回null
 	 * @param beanClass the class of the bean to advise
 	 * @param beanName the name of the bean
 	 * @param targetSource
@@ -101,7 +101,7 @@ public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyC
 	 * @see #extendAdvisors
 	 */
 	protected List<Advisor> findEligibleAdvisors(Class<?> beanClass, String beanName) {
-		// 获取增强器（获取切面方法）
+		// 获取所有的增强器（获取切面方法）
 		List<Advisor> candidateAdvisors = findCandidateAdvisors();
 		// 寻找所有增强中适用于bean的增强并应用（过滤）
 		List<Advisor> eligibleAdvisors = findAdvisorsThatCanApply(candidateAdvisors, beanClass, beanName);
