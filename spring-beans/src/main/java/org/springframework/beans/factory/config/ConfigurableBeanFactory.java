@@ -43,6 +43,12 @@ import org.springframework.util.StringValueResolver;
  * needs. This extended interface is just meant to allow for framework-internal
  * plug'n'play and for special access to bean factory configuration methods.
  *
+ * 大多数的工厂都要继承配置接口。
+ * 除了beanFactory接口中提供的方法，还提供了配置beanFactory的功能，
+ *
+ * 此bean factory 接口不打算在普通应用程序中代码中使用，坚持使用BeanFactory或listableBeanFactory满足典型需求
+ * 此扩展接口仅用于允许框架内部插件使用和用于特殊bean 工厂配置方法
+ *
  * @author Juergen Hoeller
  * @since 03.11.2003
  * @see org.springframework.beans.factory.BeanFactory
@@ -423,6 +429,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * been registered as disposable. To be called on shutdown of a factory.
 	 * <p>Any exception that arises during destruction should be caught
 	 * and logged instead of propagated to the caller of this method.
+	 *
+	 * 从工厂中销毁所有单例bean,包含注册为一次性的bean，在工厂关闭的时候被调用。
+	 * 销毁过程中的所有的异常都应该被捕获并记录，而不是传播到被调用的方法中
 	 */
 	void destroySingletons();
 

@@ -234,6 +234,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/** Local listeners registered before refresh.
 	 * 刷新前注册的本地侦听器。
+	 * todo 早期应用监听器??还有后期??
 	 * */
 	@Nullable
 	private Set<ApplicationListener<?>> earlyApplicationListeners;
@@ -567,7 +568,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
 			// Prepare this context for refreshing.
-			// 准备refresh
+			// 准备refresh:切换活跃状态、初始化占位符、验证必要属性、初始化早期监听器
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
@@ -654,7 +655,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * 准备此上下文以进行刷新、设置其启动日期和活动标志以及执行任何属性源的初始化。
 	 */
 	protected void prepareRefresh() {
-		// Switch to active.
+		// Switch to active. 切换到活动状态
 		this.startupDate = System.currentTimeMillis();
 		this.closed.set(false);
 		this.active.set(true);
@@ -669,12 +670,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// INITIALIZE ANY PLACEHOLDER PROPERTY SOURCES IN THE CONTEXT ENVIRONMENT.
-		// 在上下文环境中初始化任何占位符属性源。
+		// 初始化上下文环境中的任何占位符属性源。
 		initPropertySources();
 
 		// Validate that all properties marked as required are resolvable:
 		// see ConfigurablePropertyResolver#setRequiredProperties
-		// 验证所有标记为必需的属性都是可解析的
+		// 验证所有标记为必需的属性(通过setRequiredProperties设置的属性)都是可解析的(不为null)
 		// 获取环境
 		getEnvironment().validateRequiredProperties();
 
@@ -707,12 +708,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	/**
 	 * Tell the subclass to refresh the internal bean factory.
+	 * 告诉子类去刷新内部bean工厂
 	 * @return the fresh BeanFactory instance
 	 * @see #refreshBeanFactory()
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
+		// 如果是AbstractRefreshableApplicationContext
 		// 关闭先前的 bean 工厂（如果有）并为上下文生命周期的下一个阶段初始化一个新的 bean 工厂
+
+		// 如果是GenericApplicationContext,则什么都不做
 		refreshBeanFactory();
 		return getBeanFactory();
 	}
@@ -1184,6 +1189,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * <p>Can be overridden to add context-specific bean destruction steps
 	 * right before or right after standard singleton destruction,
 	 * while the context's BeanFactory is still active.
+	 *
+	 * 用于销毁此上下文所有beans模板方法
+	 *
+	 * 默认实现销毁上下文中所有缓存的单例，调用{@code DisposableBean.destroy()} 和(或者)其他销毁方法
+	 *
+	 * <p>可以被重写以增加上下文中特定的bean在标准单例销毁之前销毁或者之后销毁，当整个beanFactory容器还是活跃的状态的时候
 	 * @see #getBeanFactory()
 	 * @see org.springframework.beans.factory.config.ConfigurableBeanFactory#destroySingletons()
 	 */

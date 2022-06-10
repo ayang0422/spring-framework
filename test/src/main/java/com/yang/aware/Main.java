@@ -1,6 +1,5 @@
 package com.yang.aware;
 
-import com.yang.test_10_bean_annotation.BeanAnnotation;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
@@ -16,5 +15,7 @@ public class Main {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(Main.class);
 		MyBeanNameAware bean = context.getBean(MyBeanNameAware.class);
 		System.out.println(bean);
+
+		context.close();
 	}
 }

@@ -47,6 +47,9 @@ import org.springframework.util.Assert;
  * the {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
  * interface in order to allow for applying any bean definition readers to it.
  *
+ * 通用应用上下文实现，持有一个单例内部DefaultListableBeanFactory实例且不采用特定的bean定义格式。
+ * 实现了BeanDefinitionRegistry接口以便对允许对其应用任何bean definition 读取器
+ *
  * <p>Typical usage is to register a variety of bean definitions via the
  * {@link org.springframework.beans.factory.support.BeanDefinitionRegistry}
  * interface and then call {@link #refresh()} to initialize those beans
@@ -54,7 +57,8 @@ import org.springframework.util.Assert;
  * {@link org.springframework.context.ApplicationContextAware}, auto-detecting
  * {@link org.springframework.beans.factory.config.BeanFactoryPostProcessor BeanFactoryPostProcessors},
  * etc).
- *
+ * 典型的用法是通过BeanDefinitionRegistry接口注册一个不同类的bean 定义，
+ * 然后通过应用上下文调用{@link #refresh()}方法去初始化bean
  * <p>In contrast to other ApplicationContext implementations that create a new
  * internal BeanFactory instance for each refresh, the internal BeanFactory of
  * this context is available right from the start, to be able to register bean
@@ -83,6 +87,9 @@ import org.springframework.util.Assert;
  * <p>For custom application context implementations that are supposed to read
  * special bean definition formats in a refreshable manner, consider deriving
  * from the {@link AbstractRefreshableApplicationContext} base class.
+ *
+ * 对于应该可刷新的方式读取特殊bean定义格式的自定义应用程序上下文，
+ * 应该考虑{@link AbstractRefreshableApplicationContext}的派生类
  *
  * @author Juergen Hoeller
  * @author Chris Beams
@@ -265,6 +272,9 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	/**
 	 * Do nothing: We hold a single internal BeanFactory and rely on callers
 	 * to register beans through our public methods (or the BeanFactory's).
+	 *
+	 * 什么都不做：我们拥有一个内部BeanFactory，依靠调用方通过我们的公共方法（或BeanFactory的）注册bean
+	 *
 	 * @see #registerBeanDefinition
 	 */
 	@Override

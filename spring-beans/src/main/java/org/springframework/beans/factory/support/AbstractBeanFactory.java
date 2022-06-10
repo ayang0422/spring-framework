@@ -1981,6 +1981,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * Determine whether the given bean requires destruction on shutdown.
 	 * <p>The default implementation checks the DisposableBean interface as well as
 	 * a specified destroy method and registered DestructionAwareBeanPostProcessors.
+	 *
+	 * 确定给定的bean是否需要在关闭时销毁。
+	 * 默认实现会检查dispotableBean接口以及指定的销毁方法和已注册的DestructionAwareBeanPostProcessors。
+	 *
 	 * @param bean the bean instance to check
 	 * @param mbd the corresponding bean definition
 	 * @see org.springframework.beans.factory.DisposableBean

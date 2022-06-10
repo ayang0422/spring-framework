@@ -32,17 +32,30 @@ import org.springframework.lang.Nullable;
  * Typically (but not necessarily), such a context will be driven by
  * a set of config locations to load bean definitions from.
  *
+ * {@link ApplicationContext}实现的基类，这些实现应该支持多次调用{@link #refresh()},
+ * 每次创建一个新的内部bean工厂实例
+ * 通常(但不一定)，这样的上下文由一组配置驱动去加载bean定义
+ *
  * <p>The only method to be implemented by subclasses is {@link #loadBeanDefinitions},
  * which gets invoked on each refresh. A concrete implementation is supposed to load
  * bean definitions into the given
  * {@link org.springframework.beans.factory.support.DefaultListableBeanFactory},
  * typically delegating to one or more specific bean definition readers.
  *
+ * 子类唯一要实现的方法是{@link #loadBeanDefinitions},在每次刷新的时候调用
+ * 一个具体的实现应该将bean定义加载到给定的{@link DefaultListableBeanFactory}
+ * 通常委托给一个或者多个bean定义读取器
+ *
  * <p><b>Note that there is a similar base class for WebApplicationContexts.</b>
  * {@link org.springframework.web.context.support.AbstractRefreshableWebApplicationContext}
  * provides the same subclassing strategy, but additionally pre-implements
  * all context functionality for web environments. There is also a
  * pre-defined way to receive config locations for a web context.
+ *
+ * 注意，WebApplicationContexts已有一个类似的基类
+ * {@link AbstractRefreshableWebApplicationContext}提供了相同的子类化策略，
+ * 但还预先实现了web环境的所有上下文功能。
+ * 还有一种预定义的方式可以接收web上下文的配置位置
  *
  * <p>Concrete standalone subclasses of this base class, reading in a
  * specific bean definition format, are {@link ClassPathXmlApplicationContext}
@@ -122,8 +135,11 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 */
 	@Override
 	protected final void refreshBeanFactory() throws BeansException {
+		// 先判断是否存在bean工厂，如果有，先销毁所有的bean,然后关闭bean工厂
 		if (hasBeanFactory()) {
+			// 先销毁所有的bea
 			destroyBeans();
+			// 然后关闭bean工厂
 			closeBeanFactory();
 		}
 		try {
@@ -195,6 +211,10 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	 * with the {@linkplain #getInternalParentBeanFactory() internal bean factory} of this
 	 * context's parent as parent bean factory. Can be overridden in subclasses,
 	 * for example to customize DefaultListableBeanFactory's settings.
+	 *
+	 * 为此上下文创建一个内部bean工厂
+	 * 为每次{@link #refresh()}方法尝试调用
+	 *
 	 * @return the bean factory for this context
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowBeanDefinitionOverriding
 	 * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#setAllowEagerClassLoading

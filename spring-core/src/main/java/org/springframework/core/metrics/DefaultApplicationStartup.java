@@ -23,7 +23,11 @@ import java.util.function.Supplier;
 /**
  * Default "no op" {@code ApplicationStartup} implementation.
  *
+ * 默认'无操作'ApplicationStartup的实现
+ *
  * <p>This variant is designed for minimal overhead and does not record events.
+ *
+ * 此变体旨在实现最小的开销，并且不记录数据。
  *
  * @author Brian Clozel
  */
